@@ -1,0 +1,12 @@
+{
+	"version": "0.0.1",
+	"configurations": [
+		{
+			"name": "DogAppBlazor",
+			"runtimeExecutable": "dotnet",
+			"runtimeArgs": ["run", "--project", "src/Web.Server/Web.Server.csproj", "--launch-profile", "https", "--no-launch-profile-browser"],
+			"port": 7117,
+			"url": "https://localhost:7117"
+		}
+	]
+}

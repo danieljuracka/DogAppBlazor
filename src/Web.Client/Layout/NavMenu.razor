@@ -1,0 +1,23 @@
+<HxSidebar CssClass="sticky-top">
+	<HeaderTemplate>
+		<HxSidebarBrand BrandName="Naši psi" BrandNameShort="NP">
+			<LogoTemplate>
+				<AppLogo />
+			</LogoTemplate>
+		</HxSidebarBrand>
+	</HeaderTemplate>
+
+	<ItemsTemplate>
+		<HxSidebarItem Text="Psi"
+					   Href="@NavigationRoutes.Dogs.Index"
+					   Icon="@BootstrapIcon.HouseDoorFill"
+					   Match="NavLinkMatch.All" />
+		<HxSidebarItem Text="Záznamy"
+					   Href="@NavigationRoutes.Records.Index"
+					   Icon="@BootstrapIcon.ListNested" />
+		<HxSidebarItem Text="Pridať psa"
+					   Href="@NavigationRoutes.Dogs.Create"
+					   Icon="@BootstrapIcon.PlusSquareFill" />
+	</ItemsTemplate>
+
+</HxSidebar>

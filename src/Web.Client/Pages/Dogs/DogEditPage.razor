@@ -1,0 +1,36 @@
+@attribute [Route(NavigationRoutes.Dogs.Create)]
+@attribute [Route(NavigationRoutes.Dogs.Edit)]
+
+<PageTitle>@_title</PageTitle>
+
+<div class="page-header">
+	<div>
+		<h1 class="page-title">@_title</h1>
+		<p class="page-subtitle">@_subtitle</p>
+	</div>
+</div>
+
+@if (_notFound)
+{
+	<HxAlert Color="ThemeColor.Warning">
+		Taký pes tu nie je. <a href="@NavigationRoutes.Dogs.Index">Späť na zoznam</a>
+	</HxAlert>
+}
+else if (_dog is null)
+{
+	<div class="d-flex align-items-center gap-2 text-body-secondary">
+		<HxSpinner Size="SpinnerSize.Small" />
+		<span>Načítavam…</span>
+	</div>
+}
+else
+{
+	<HxCard>
+		<BodyTemplate>
+			<DogEditForm Dog="_dog"
+						 IsBusy="_isBusy"
+						 OnValidSubmit="SaveAsync"
+						 OnCancel="Cancel" />
+		</BodyTemplate>
+	</HxCard>
+}

@@ -1,0 +1,39 @@
+// Paleta aplikácie -----------------------------------------------------------
+
+$page-bg: #e8f3f1;
+$surface: #fffbf7;
+$sidebar-bg: #fbefe3;
+$sidebar-border: #f3e1cf;
+
+$teal: #4e9086;
+$teal-dark: #3f7a71;
+
+$coral: #e8734c;
+$coral-dark: #d05e39;
+
+$amber: #f0be4b;
+
+$ink: #2e3e44;
+$muted: #75898f;
+$faint: #9aaaae;
+$line: #f0e2d4;
+$input-border: #e7dbcd;
+
+$mint-tint: #e9f4f1;
+$mint-border: #cbe4dd;
+$peach-tint: #fdf1e3;
+$peach-border: #f5dcc0;
+
+// Tvaroslovie ----------------------------------------------------------------
+
+$font-family: "Nunito", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+$radius-shell: 1.5rem;
+$radius-card: 1.15rem;
+$radius-control: .7rem;
+$radius-nav-item: .8rem;
+
+$shadow-card: 0 2px 8px rgba($ink, .04);
+$shadow-shell: 0 10px 40px rgba($ink, .08);
+
+$breakpoint-md: 767.98px;

@@ -1,0 +1,251 @@
+@use "../abstracts/variables" as *;
+
+// Štýly sú globálne, lebo timeline štýluje aj triedy odovzdané
+// do HxButton, ktorý nepatrí do scope komponentu RecordTimeline.
+
+.timeline {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.timeline-item {
+	display: grid;
+	grid-template-columns: 4.5rem 1.25rem 1fr;
+	column-gap: .75rem;
+	padding-bottom: 1.5rem;
+
+	&:last-child {
+		padding-bottom: 0;
+
+		.timeline-marker::after {
+			display: none;
+		}
+	}
+}
+
+.timeline-date {
+	text-align: right;
+	padding-top: .1rem;
+	line-height: 1.2;
+}
+
+.timeline-date-day {
+	font-weight: 700;
+	color: $ink;
+	white-space: nowrap;
+}
+
+.timeline-date-year {
+	font-size: .78rem;
+	color: $muted;
+}
+
+.timeline-marker {
+	position: relative;
+	justify-self: center;
+	width: .85rem;
+	// Bunka sa roztiahne na výšku celého záznamu, aby spojnica siahala k ďalšiemu bodu.
+	align-self: stretch;
+
+	// Bod na časovej osi.
+	&::before {
+		content: "";
+		position: absolute;
+		top: .3rem;
+		left: 0;
+		width: .85rem;
+		height: .85rem;
+		border-radius: 50%;
+		background-color: var(--marker-color, #{$teal});
+		box-shadow: 0 0 0 3px color-mix(in srgb, var(--marker-color, #{$teal}) 18%, #fff);
+	}
+
+	// Spojnica k ďalšiemu záznamu.
+	&::after {
+		content: "";
+		position: absolute;
+		top: 1.65rem;
+		bottom: -1.5rem;
+		left: 50%;
+		transform: translateX(-50%);
+		width: 2px;
+		background-color: rgba($ink, .12);
+	}
+}
+
+.timeline-content-clickable {
+	cursor: pointer;
+	border-radius: .6rem;
+	margin: -.35rem -.6rem;
+	padding: .35rem .6rem;
+	transition: background-color .12s ease-in-out;
+
+	&:hover {
+		background-color: rgba($teal, .07);
+	}
+
+	&:focus-visible {
+		outline: 2px solid $teal;
+		outline-offset: 1px;
+	}
+}
+
+.timeline-heading {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: .5rem;
+}
+
+.timeline-title {
+	font-weight: 700;
+	color: $ink;
+}
+
+.timeline-dog {
+	font-weight: 700;
+	color: $teal;
+	text-decoration: none;
+
+	&:hover {
+		text-decoration: underline;
+	}
+}
+
+.timeline-actions {
+	display: flex;
+	gap: .15rem;
+	margin-left: auto;
+	opacity: 0;
+	transition: opacity .15s ease-in-out;
+}
+
+.timeline-item:hover .timeline-actions,
+.timeline-item:focus-within .timeline-actions {
+	opacity: 1;
+}
+
+.btn.timeline-action {
+	--bs-btn-padding-x: .45rem;
+	--bs-btn-padding-y: .2rem;
+	--bs-btn-color: #{$muted};
+	--bs-btn-hover-color: #{$teal};
+	--bs-btn-hover-bg: #{rgba($teal, .1)};
+	--bs-btn-active-bg: #{rgba($teal, .18)};
+
+	&.timeline-action-danger {
+		--bs-btn-hover-color: #{$coral-dark};
+		--bs-btn-hover-bg: #{rgba($coral, .12)};
+		--bs-btn-active-bg: #{rgba($coral, .2)};
+	}
+}
+
+.timeline-description {
+	margin: .35rem 0 0;
+	color: $muted;
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.timeline-meta {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .35rem .9rem;
+	margin-top: .4rem;
+	font-size: .85rem;
+	color: $muted;
+}
+
+.timeline-due {
+	font-weight: 700;
+	color: $teal;
+}
+
+.timeline-due-overdue {
+	color: $coral-dark;
+}
+
+.timeline-due-done {
+	color: $muted;
+	font-weight: 600;
+
+	.hx-icon {
+		color: $teal;
+	}
+}
+
+// Vybavenie termínu priamo z časovej osi.
+.btn.timeline-complete {
+	--bs-btn-padding-y: .1rem;
+	--bs-btn-padding-x: .5rem;
+	--bs-btn-font-size: .78rem;
+	--bs-btn-border-radius: .5rem;
+}
+
+.timeline-empty {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+}
+
+.timeline-empty-icon {
+	font-size: 1.75rem;
+	color: $teal;
+}
+
+@media (max-width: $breakpoint-md) {
+	.timeline-item {
+		grid-template-columns: 1.25rem 1fr;
+		column-gap: .6rem;
+	}
+
+	.timeline-date {
+		grid-column: 2;
+		grid-row: 1;
+		text-align: left;
+		display: flex;
+		gap: .3rem;
+		font-size: .85rem;
+		padding-top: 0;
+		margin-bottom: .15rem;
+	}
+
+	.timeline-marker {
+		grid-column: 1;
+		grid-row: 1 / span 2;
+		margin-top: .2rem;
+	}
+
+	.timeline-content {
+		grid-column: 2;
+		grid-row: 2;
+	}
+
+	.timeline-actions {
+		opacity: 1;
+	}
+}
+
+// Sekcia záznamov -------------------------------------------------------------
+
+.records-header {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: .5rem;
+}
+
+.records-filter {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1rem;
+	margin-bottom: 1.25rem;
+	padding-bottom: 1.25rem;
+	border-bottom: 1px solid rgba($ink, .08);
+
+	> * {
+		min-width: 12rem;
+	}
+}

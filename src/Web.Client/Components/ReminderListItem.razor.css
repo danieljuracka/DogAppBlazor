@@ -1,0 +1,42 @@
+.reminder-item {
+	display: flex;
+	align-items: center;
+	gap: .75rem;
+}
+
+.reminder-dot {
+	flex: 0 0 auto;
+	width: .7rem;
+	height: .7rem;
+	border-radius: 50%;
+	background-color: var(--marker-color, var(--dog-teal));
+	box-shadow: 0 0 0 3px color-mix(in srgb, var(--marker-color, var(--dog-teal)) 18%, #fff);
+}
+
+.reminder-title {
+	font-weight: 700;
+	color: var(--dog-ink);
+}
+
+.reminder-dog {
+	color: var(--dog-teal);
+	text-decoration: none;
+}
+
+	.reminder-dog:hover {
+		text-decoration: underline;
+	}
+
+.reminder-due {
+	font-size: .85rem;
+	color: var(--dog-muted);
+}
+
+.reminder-due-overdue {
+	color: var(--dog-coral-dark);
+	font-weight: 700;
+}
+
+.reminder-relative {
+	opacity: .8;
+}

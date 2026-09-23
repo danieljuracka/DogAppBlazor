@@ -1,0 +1,22 @@
+@* Jeden blížiaci sa alebo zmeškaný termín. *@
+
+<li class="reminder-item">
+	<span class="reminder-dot" style="@DotStyle"></span>
+	<div class="flex-grow-1 overflow-hidden">
+		<div class="reminder-title text-truncate">
+			<a href="@NavigationRoutes.Dogs.GetDetail(Reminder.DogId)" class="reminder-dog">@Reminder.DogName</a>
+			<span>@Reminder.Title</span>
+		</div>
+		<div class="@DueCssClass">
+			@(Reminder.IsOverdue ? "Po termíne" : "Termín") @DateFormatter.ToShortDate(Reminder.DueOn)
+			<span class="reminder-relative">(@DateFormatter.ToRelative(Reminder.DueOn))</span>
+		</div>
+	</div>
+	<RecordTypeBadge Type="Reminder.Type" />
+	<HxButton Text="Vybavené"
+			  Icon="@BootstrapIcon.Check2"
+			  Color="ThemeColor.Secondary"
+			  Outline="true"
+			  Size="ButtonSize.Small"
+			  OnClick="CompleteAsync" />
+</li>

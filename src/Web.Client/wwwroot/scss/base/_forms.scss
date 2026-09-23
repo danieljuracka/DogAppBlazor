@@ -1,0 +1,20 @@
+@use "../abstracts/variables" as *;
+
+.form-control,
+.form-select {
+	--bs-border-radius: #{$radius-control};
+
+	border-color: $input-border;
+	background-color: #fff;
+
+	&:focus {
+		border-color: $teal;
+		box-shadow: 0 0 0 .2rem rgba($teal, .15);
+	}
+}
+
+.form-label {
+	font-weight: 700;
+	color: $muted;
+	font-size: .875rem;
+}

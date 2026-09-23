@@ -1,0 +1,12 @@
+@* Kruhový avatar psa. Kým nemáme fotky, zobrazuje iniciálu na farbe odvodenej od mena. *@
+
+<div class="dog-avatar" style="@GetStyle()" title="@Name" aria-hidden="true">
+	@if (!String.IsNullOrEmpty(PhotoUrl))
+	{
+		<img src="@PhotoUrl" alt="" class="dog-avatar-image" />
+	}
+	else
+	{
+		<span class="dog-avatar-initial">@GetInitial()</span>
+	}
+</div>

@@ -1,0 +1,35 @@
+.dog-color-swatches {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .6rem;
+}
+
+.dog-color-swatch {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 2.25rem;
+	height: 2.25rem;
+	padding: 0;
+	border: none;
+	border-radius: 50%;
+	color: #fff;
+	font-size: 1.1rem;
+	background-color: var(--swatch-color);
+	box-shadow: 0 0 0 3px #fff, 0 0 0 4px color-mix(in srgb, var(--swatch-color) 35%, #fff);
+	transition: transform .12s ease-in-out, box-shadow .12s ease-in-out;
+	cursor: pointer;
+}
+
+	.dog-color-swatch:hover {
+		transform: scale(1.08);
+	}
+
+	.dog-color-swatch:focus-visible {
+		outline: none;
+		box-shadow: 0 0 0 3px #fff, 0 0 0 5px var(--dog-ink);
+	}
+
+	.dog-color-swatch.selected {
+		box-shadow: 0 0 0 3px #fff, 0 0 0 5px var(--swatch-color);
+	}

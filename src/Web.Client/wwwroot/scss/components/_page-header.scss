@@ -1,0 +1,21 @@
+@use "../abstracts/variables" as *;
+
+.page-header {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: .75rem;
+	margin-bottom: 1.75rem;
+}
+
+.page-title {
+	font-size: 2rem;
+	font-weight: 800;
+	margin-bottom: .15rem;
+}
+
+.page-subtitle {
+	color: $muted;
+	margin-bottom: 0;
+}

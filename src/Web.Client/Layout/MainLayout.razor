@@ -1,0 +1,19 @@
+@inherits LayoutComponentBase
+
+<HxMessenger Position="ToastContainerPosition.BottomCenter" />
+<HxMessageBoxHost />
+
+<div class="app-shell">
+	<div class="app-shell-inner d-md-flex">
+		<NavMenu />
+		<main class="app-main flex-grow-1">
+			@Body
+		</main>
+	</div>
+</div>
+
+<div id="blazor-error-ui" data-nosnippet>
+	Nastala neočakávaná chyba.
+	<a href="." class="reload">Obnoviť</a>
+	<span class="dismiss">🗙</span>
+</div>

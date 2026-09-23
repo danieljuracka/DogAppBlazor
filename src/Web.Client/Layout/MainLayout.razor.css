@@ -1,0 +1,56 @@
+.app-shell {
+	padding: 1.25rem;
+	min-height: 100vh;
+}
+
+.app-shell-inner {
+	background-color: var(--dog-surface);
+	border-radius: 1.5rem;
+	box-shadow: 0 10px 40px rgba(46, 62, 68, .08);
+	overflow: hidden;
+	min-height: calc(100vh - 2.5rem);
+	max-width: 1400px;
+	margin-inline: auto;
+}
+
+.app-main {
+	padding: 2rem;
+	overflow: hidden;
+}
+
+@media (max-width: 767.98px) {
+	.app-shell {
+		padding: 0;
+	}
+
+	.app-shell-inner {
+		border-radius: 0;
+		min-height: 100vh;
+		box-shadow: none;
+	}
+
+	.app-main {
+		padding: 1.25rem;
+	}
+}
+
+#blazor-error-ui {
+	color-scheme: light only;
+	background: lightyellow;
+	bottom: 0;
+	box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+	box-sizing: border-box;
+	display: none;
+	left: 0;
+	padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+	position: fixed;
+	width: 100%;
+	z-index: 91000;
+}
+
+	#blazor-error-ui .dismiss {
+		cursor: pointer;
+		position: absolute;
+		right: 0.75rem;
+		top: 0.5rem;
+	}

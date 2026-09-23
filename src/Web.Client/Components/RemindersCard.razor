@@ -1,0 +1,20 @@
+@* Blížiace sa a zmeškané termíny odvodené z „ďalší termín“ na záznamoch. *@
+
+<HxCard>
+	<HeaderTemplate>Blíži sa a po termíne</HeaderTemplate>
+	<BodyTemplate>
+		@if (Reminders.Count == 0)
+		{
+			<span class="text-body-secondary">Nič sa neblíži. Žiadne očkovanie ani odčervenie nečaká.</span>
+		}
+		else
+		{
+			<ul class="reminder-list">
+				@foreach (ReminderDto reminder in Reminders)
+				{
+					<ReminderListItem Reminder="reminder" OnComplete="OnComplete" />
+				}
+			</ul>
+		}
+	</BodyTemplate>
+</HxCard>

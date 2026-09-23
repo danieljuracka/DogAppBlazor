@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<AssemblyName>DogAppBlazor.Web.Server</AssemblyName>
+		<RootNamespace>DogAppBlazor.Web.Server</RootNamespace>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Havit.Blazor.Components.Web.Bootstrap" />
+		<PackageReference Include="Havit.AspNetCore" />
+		<PackageReference Include="Havit.Blazor.Grpc.Server" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Contracts\Contracts.csproj" />
+		<ProjectReference Include="..\Facades\Facades.csproj" />
+		<ProjectReference Include="..\Web.Client\Web.Client.csproj" />
+	</ItemGroup>
+
+</Project>

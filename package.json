@@ -1,0 +1,11 @@
+{
+	"name": "dogappblazor",
+	"private": true,
+	"devDependencies": {
+		"sass": "^1.80.0"
+	},
+	"scripts": {
+		"compile:scss": "sass --style=expanded src/Web.Client/wwwroot/scss/main.scss src/Web.Client/wwwroot/css/main.css && sass --no-source-map --style=compressed src/Web.Client/wwwroot/scss/main.scss src/Web.Client/wwwroot/css/main.min.css",
+		"watch:scss": "sass --watch --style=expanded src/Web.Client/wwwroot/scss/main.scss src/Web.Client/wwwroot/css/main.css"
+	}
+}

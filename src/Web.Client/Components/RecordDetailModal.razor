@@ -1,0 +1,78 @@
+@* Read-only náhľad záznamu. Otvára sa klikom na záznam v zozname. *@
+
+<HxModal @ref="_modal" Title="Záznam" Size="ModalSize.Large" OnClosed="HandleClosedAsync">
+	<BodyTemplate>
+		@if (_record is not null)
+		{
+			<div class="row g-3">
+				<div class="col-12 col-md-6">
+					<HxFormValue Label="Pes" Value="@GetText(_record.DogName)" />
+				</div>
+				<div class="col-12 col-md-6">
+					<HxFormValue Label="Druh záznamu">
+						<ValueTemplate>
+							<RecordTypeBadge Type="_record.Type" />
+						</ValueTemplate>
+					</HxFormValue>
+				</div>
+				<div class="col-12 col-md-6">
+					<HxFormValue Label="Dátum" Value="@DateFormatter.ToShortDate(_record.OccurredOn)" />
+				</div>
+				<div class="col-12 col-md-6">
+					<HxFormValue Label="Ďalší termín">
+						<ValueTemplate>
+							@if (_record.NextDueOn is null)
+							{
+								<span class="text-body-secondary">—</span>
+							}
+							else if (_record.IsNextDueCompleted)
+							{
+								<span class="timeline-due timeline-due-done">
+									<HxIcon Icon="@BootstrapIcon.CheckCircleFill" />
+									@DateFormatter.ToShortDate(_record.NextDueOn.Value) — vybavené
+								</span>
+							}
+							else
+							{
+								<span class="@GetNextDueCssClass()">
+									@DateFormatter.ToShortDate(_record.NextDueOn.Value)
+									(@DateFormatter.ToRelative(_record.NextDueOn.Value))
+								</span>
+							}
+						</ValueTemplate>
+					</HxFormValue>
+				</div>
+				<div class="col-12">
+					<HxFormValue Label="Čo sa stalo" Value="@GetText(_record.Title)" />
+				</div>
+				<div class="col-12">
+					<HxFormValue Label="Podrobnosti">
+						<ValueTemplate>
+							@if (String.IsNullOrWhiteSpace(_record.Description))
+							{
+								<span class="text-body-secondary">—</span>
+							}
+							else
+							{
+								<div class="record-detail-description">@_record.Description</div>
+							}
+						</ValueTemplate>
+					</HxFormValue>
+				</div>
+				<div class="col-12 col-md-4">
+					<HxFormValue Label="Veterinár" Value="@GetText(_record.VetName)" />
+				</div>
+				<div class="col-6 col-md-4">
+					<HxFormValue Label="Cena" Value="@GetAmount(_record.Cost, "€")" />
+				</div>
+				<div class="col-6 col-md-4">
+					<HxFormValue Label="Hmotnosť" Value="@GetAmount(_record.WeightKg, "kg")" />
+				</div>
+			</div>
+		}
+	</BodyTemplate>
+	<FooterTemplate>
+		<HxButton Color="ThemeColor.Secondary" Outline="true" Text="Zavrieť" OnClick="HideAsync" />
+		<HxButton Color="ThemeColor.Primary" Icon="@BootstrapIcon.Pencil" Text="Upraviť" OnClick="RequestEditAsync" />
+	</FooterTemplate>
+</HxModal>

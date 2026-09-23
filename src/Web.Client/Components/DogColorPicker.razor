@@ -1,0 +1,23 @@
+@* Výber farby psa z palety. Podporuje @bind-Value. *@
+
+<div class="dog-color-picker">
+	<div class="form-label">@Label</div>
+	<div class="dog-color-swatches" role="radiogroup" aria-label="@Label">
+		@foreach (DogColor color in DogColors.Palette)
+		{
+			<button type="button"
+					class="@GetSwatchCssClass(color)"
+					style="@($"--swatch-color: {color.Hex};")"
+					role="radio"
+					aria-checked="@IsSelected(color).ToString().ToLowerInvariant()"
+					aria-label="@color.Name"
+					title="@color.Name"
+					@onclick="@(() => SelectAsync(color))">
+				@if (IsSelected(color))
+				{
+					<HxIcon Icon="@BootstrapIcon.Check2" />
+				}
+			</button>
+		}
+	</div>
+</div>

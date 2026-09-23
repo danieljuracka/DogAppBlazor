@@ -1,0 +1,91 @@
+@attribute [Route(NavigationRoutes.Dogs.Detail)]
+
+<PageTitle>@(_dog?.Name ?? "Profil psa")</PageTitle>
+
+@if (_notFound)
+{
+	<HxAlert Color="ThemeColor.Warning">
+		Taký pes tu nie je. <a href="@NavigationRoutes.Dogs.Index">Späť na zoznam</a>
+	</HxAlert>
+}
+else if (_dog is null)
+{
+	<div class="d-flex align-items-center gap-2 text-body-secondary">
+		<HxSpinner Size="SpinnerSize.Small" />
+		<span>Načítavam profil…</span>
+	</div>
+}
+else
+{
+	<div class="dog-hero" style="@HeroStyle">
+		<DogAvatar Name="@_dog.Name" Size="84" Color="@_color" RingColor="@_color" />
+		<div class="flex-grow-1 overflow-hidden">
+			<h1 class="dog-hero-name">@_dog.Name</h1>
+			<div class="dog-hero-breed">@BreedText</div>
+		</div>
+		<div class="d-flex gap-2">
+			<HxButton Text="Späť"
+					  Icon="@BootstrapIcon.ArrowLeft"
+					  Color="ThemeColor.Secondary"
+					  Outline="true"
+					  OnClick="NavigateToIndex" />
+			<HxButton Text="Upraviť"
+					  Icon="@BootstrapIcon.Pencil"
+					  Color="ThemeColor.Primary"
+					  OnClick="NavigateToEdit" />
+		</div>
+	</div>
+
+	<div class="row g-3">
+		<div class="col-12 col-lg-6">
+			<HxCard CssClass="h-100">
+				<HeaderTemplate>Základné údaje</HeaderTemplate>
+				<BodyTemplate>
+					<dl class="detail-list">
+						<dt>Pohlavie</dt>
+						<dd>@(DogFormatter.GetSexText(_dog.Sex) ?? "—")</dd>
+
+						<dt>Narodenie</dt>
+						<dd>
+							@if (_dog.BirthDate is null)
+							{
+								<text>—</text>
+							}
+							else
+							{
+								@DateFormatter.ToShortDate(_dog.BirthDate.Value)
+								<span class="detail-muted ms-1">(@DogFormatter.GetAgeText(_dog.BirthDate))</span>
+							}
+						</dd>
+
+						<dt>Číslo čipu</dt>
+						<dd>@(String.IsNullOrWhiteSpace(_dog.MicrochipNumber) ? "—" : _dog.MicrochipNumber)</dd>
+					</dl>
+				</BodyTemplate>
+			</HxCard>
+		</div>
+
+		<div class="col-12 col-lg-6">
+			<HxCard CssClass="h-100">
+				<HeaderTemplate>Poznámka</HeaderTemplate>
+				<BodyTemplate>
+					@if (String.IsNullOrWhiteSpace(_dog.Note))
+					{
+						<span class="detail-muted">Zatiaľ bez poznámky.</span>
+					}
+					else
+					{
+						<div class="detail-note">@_dog.Note</div>
+					}
+				</BodyTemplate>
+			</HxCard>
+		</div>
+
+		<div class="col-12">
+			<RecordsSection DogId="Id"
+							Title="Záznamy"
+							EmptyTitle="Zatiaľ žiadne záznamy"
+							EmptyText="Pridaj prvú návštevu veterinára, očkovanie alebo čokoľvek, čo je dobré si pamätať." />
+		</div>
+	</div>
+}

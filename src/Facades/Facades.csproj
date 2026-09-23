@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<AssemblyName>DogAppBlazor.Facades</AssemblyName>
+		<RootNamespace>DogAppBlazor.Facades</RootNamespace>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Havit.Core" />
+		<PackageReference Include="Havit.Extensions.DependencyInjection.Abstractions" />
+		<PackageReference Include="Havit.Extensions.DependencyInjection.SourceGenerators">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Contracts\Contracts.csproj" />
+	</ItemGroup>
+
+</Project>

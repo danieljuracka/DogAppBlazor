@@ -1,0 +1,39 @@
+@use "../abstracts/variables" as *;
+
+.btn {
+	--bs-btn-border-radius: #{$radius-control};
+	--bs-btn-font-weight: 700;
+	--bs-btn-padding-y: .5rem;
+	--bs-btn-padding-x: 1rem;
+}
+
+.btn-primary {
+	--bs-btn-bg: #{$coral};
+	--bs-btn-border-color: #{$coral};
+	--bs-btn-hover-bg: #{$coral-dark};
+	--bs-btn-hover-border-color: #{$coral-dark};
+	--bs-btn-active-bg: #{$coral-dark};
+	--bs-btn-active-border-color: #{$coral-dark};
+	--bs-btn-disabled-bg: #{$coral};
+	--bs-btn-disabled-border-color: #{$coral};
+	--bs-btn-color: #fff;
+	--bs-btn-hover-color: #fff;
+	--bs-btn-active-color: #fff;
+	--bs-btn-disabled-color: #fff;
+
+	box-shadow: 0 4px 10px rgba($coral, .25);
+}
+
+.btn-outline-secondary {
+	--bs-btn-color: #{$teal};
+	--bs-btn-border-color: #cde0dc;
+	--bs-btn-bg: #fff;
+	--bs-btn-hover-bg: #{$teal};
+	--bs-btn-hover-border-color: #{$teal};
+	--bs-btn-hover-color: #fff;
+	--bs-btn-active-bg: #{$teal-dark};
+	--bs-btn-active-border-color: #{$teal-dark};
+	--bs-btn-active-color: #fff;
+	--bs-btn-disabled-color: #{$teal};
+	--bs-btn-disabled-border-color: #cde0dc;
+}

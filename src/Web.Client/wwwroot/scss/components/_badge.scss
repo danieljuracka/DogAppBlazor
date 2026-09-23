@@ -1,0 +1,10 @@
+@use "../abstracts/variables" as *;
+
+.badge.text-bg-light {
+	background-color: #fff !important;
+	border: 1px solid $line;
+	color: $muted !important;
+	font-weight: 600;
+	border-radius: .6rem;
+	padding: .4rem .6rem;
+}

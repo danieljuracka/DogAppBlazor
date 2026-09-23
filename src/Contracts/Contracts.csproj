@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<AssemblyName>DogAppBlazor.Contracts</AssemblyName>
+		<RootNamespace>DogAppBlazor.Contracts</RootNamespace>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Havit.Blazor.Grpc.Core" />
+		<PackageReference Include="Havit.Core" />
+		<PackageReference Include="protobuf-net" />
+		<PackageReference Include="protobuf-net.Grpc" />
+	</ItemGroup>
+
+</Project>

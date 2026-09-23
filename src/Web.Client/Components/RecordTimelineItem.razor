@@ -1,0 +1,87 @@
+@* Jeden záznam na časovej osi. Klik otvára náhľad, ikonky majú vlastné akcie. *@
+
+<li class="timeline-item">
+	<div class="timeline-date">
+		<div class="timeline-date-day">@Record.OccurredOn.ToString("d. M.")</div>
+		<div class="timeline-date-year">@Record.OccurredOn.Year</div>
+	</div>
+
+	<div class="timeline-marker" style="@MarkerStyle"></div>
+
+	<div class="timeline-content timeline-content-clickable"
+		 role="button"
+		 tabindex="0"
+		 @onclick="SelectAsync"
+		 @onkeydown="HandleKeyDownAsync">
+		<div class="timeline-heading">
+			<RecordTypeBadge Type="Record.Type" />
+			@if (ShowDogName && !String.IsNullOrEmpty(Record.DogName))
+			{
+				<a class="timeline-dog"
+				   href="@NavigationRoutes.Dogs.GetDetail(Record.DogId)"
+				   @onclick:stopPropagation="true"
+				   @onclick="@(() => { })">@Record.DogName</a>
+			}
+			<span class="timeline-title">@Record.Title</span>
+
+			<div class="timeline-actions" @onclick:stopPropagation="true" @onclick="@(() => { })">
+				<HxButton Icon="@BootstrapIcon.Pencil"
+						  Color="ThemeColor.None"
+						  CssClass="timeline-action"
+						  Tooltip="Upraviť"
+						  OnClick="EditAsync" />
+				<HxButton Icon="@BootstrapIcon.Trash"
+						  Color="ThemeColor.None"
+						  CssClass="timeline-action timeline-action-danger"
+						  Tooltip="Zmazať"
+						  OnClick="DeleteAsync" />
+			</div>
+		</div>
+
+		@if (!String.IsNullOrWhiteSpace(Record.Description))
+		{
+			<p class="timeline-description">@Record.Description</p>
+		}
+
+		<div class="timeline-meta">
+			@if (!String.IsNullOrWhiteSpace(Record.VetName))
+			{
+				<span>@Record.VetName</span>
+			}
+			@if (Record.WeightKg is not null)
+			{
+				<span>@Record.WeightKg.Value.ToString("0.##") kg</span>
+			}
+			@if (Record.Cost is not null)
+			{
+				<span>@Record.Cost.Value.ToString("0.##") €</span>
+			}
+			@if (Record.NextDueOn is not null)
+			{
+				@if (Record.IsNextDueCompleted)
+				{
+					<span class="timeline-due timeline-due-done">
+						<HxIcon Icon="@BootstrapIcon.CheckCircleFill" />
+						Termín @DateFormatter.ToShortDate(Record.NextDueOn.Value) vybavený
+					</span>
+				}
+				else
+				{
+					<span class="@NextDueCssClass">
+						Ďalší termín @DateFormatter.ToShortDate(Record.NextDueOn.Value)
+						(@DateFormatter.ToRelative(Record.NextDueOn.Value))
+					</span>
+					<span @onclick:stopPropagation="true" @onclick="@(() => { })">
+						<HxButton Text="Vybavené"
+								  Icon="@BootstrapIcon.Check2"
+								  Color="ThemeColor.Secondary"
+								  Outline="true"
+								  Size="ButtonSize.Small"
+								  CssClass="timeline-complete"
+								  OnClick="CompleteFollowUpAsync" />
+					</span>
+				}
+			}
+		</div>
+	</div>
+</li>

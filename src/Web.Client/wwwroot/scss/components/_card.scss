@@ -1,0 +1,18 @@
+@use "../abstracts/variables" as *;
+
+.card {
+	--bs-card-border-radius: #{$radius-card};
+	--bs-card-inner-border-radius: #{$radius-card - .1rem};
+	--bs-card-border-color: #{$line};
+	--bs-card-cap-bg: transparent;
+	--bs-card-spacer-y: 1.25rem;
+	--bs-card-spacer-x: 1.25rem;
+
+	box-shadow: $shadow-card;
+
+	> .card-header {
+		font-weight: 700;
+		border-bottom-color: $line;
+		padding-block: .9rem;
+	}
+}

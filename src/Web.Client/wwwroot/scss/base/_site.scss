@@ -1,0 +1,25 @@
+@use "../abstracts/variables" as *;
+
+body {
+	background-color: $page-bg;
+	font-family: $font-family;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-weight: 700;
+	color: $ink;
+}
+
+h1:focus {
+	outline: none;
+}
+
+.blazor-error-boundary {
+	background: #b32121;
+	padding: 1rem;
+	color: #fff;
+
+	&::after {
+		content: "Nastala chyba.";
+	}
+}

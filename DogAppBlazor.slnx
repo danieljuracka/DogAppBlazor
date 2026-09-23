@@ -1,4 +1,8 @@
-﻿<Solution>
-  <Project Path="src/DogAppBlazor.Client/DogAppBlazor.Client.csproj" />
-  <Project Path="src/DogAppBlazor/DogAppBlazor.csproj" />
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Contracts/Contracts.csproj" />
+    <Project Path="src/Facades/Facades.csproj" />
+    <Project Path="src/Web.Client/Web.Client.csproj" />
+    <Project Path="src/Web.Server/Web.Server.csproj" />
+  </Folder>
 </Solution>

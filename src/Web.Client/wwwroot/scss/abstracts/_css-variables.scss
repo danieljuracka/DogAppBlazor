@@ -1,0 +1,47 @@
+@use "variables" as *;
+
+// Premenné vystavené do CSS - používajú ich scoped .razor.css súbory
+// aj prepis bootstrapovej témy nižšie.
+
+:root {
+	--dog-page-bg: #{$page-bg};
+	--dog-surface: #{$surface};
+	--dog-sidebar-bg: #{$sidebar-bg};
+
+	--dog-teal: #{$teal};
+	--dog-teal-dark: #{$teal-dark};
+	--dog-coral: #{$coral};
+	--dog-coral-dark: #{$coral-dark};
+	--dog-amber: #{$amber};
+
+	--dog-ink: #{$ink};
+	--dog-muted: #{$muted};
+	--dog-line: #{$line};
+
+	--dog-mint-tint: #{$mint-tint};
+	--dog-mint-border: #{$mint-border};
+	--dog-peach-tint: #{$peach-tint};
+	--dog-peach-border: #{$peach-border};
+
+	// Bootstrap
+	--bs-body-bg: #{$surface};
+	--bs-body-color: #{$ink};
+	--bs-secondary-color: #{$muted};
+	--bs-tertiary-color: #{$faint};
+	--bs-emphasis-color: #{$ink};
+	--bs-border-color: #{$line};
+	--bs-link-color: #{$teal};
+	--bs-link-hover-color: #{$teal-dark};
+	--bs-border-radius: .75rem;
+	--bs-border-radius-sm: .55rem;
+	--bs-border-radius-lg: 1rem;
+	--bs-font-sans-serif: #{$font-family};
+
+	// Havit sidebar
+	--hx-sidebar-item-hover-background-color: 78, 144, 134;
+	--hx-sidebar-item-active-background-color: 78, 144, 134;
+	--hx-sidebar-item-active-color: #fff;
+	--hx-sidebar-item-hover-color: #{$ink};
+	--hx-sidebar-item-icon-color: #6e8a84;
+	--hx-sidebar-parent-item-active-icon-color: #fff;
+}

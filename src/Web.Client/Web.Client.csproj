@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+	<PropertyGroup>
+		<AssemblyName>DogAppBlazor.Web.Client</AssemblyName>
+		<RootNamespace>DogAppBlazor.Web.Client</RootNamespace>
+		<NoDefaultLaunchSettingsFile>true</NoDefaultLaunchSettingsFile>
+		<StaticWebAssetProjectMode>Default</StaticWebAssetProjectMode>
+		<!-- Aplikacia pouziva sk-SK, ktoru predvolena EFIGS sada ICU neobsahuje. -->
+		<BlazorWebAssemblyLoadAllGlobalizationData>true</BlazorWebAssemblyLoadAllGlobalizationData>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<TrimmerRootDescriptor Include="TrimmerRootDescriptor.xml" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Havit.Blazor.Components.Web.Bootstrap" />
+		<PackageReference Include="Havit.Blazor.Grpc.Client" />
+		<PackageReference Include="Havit.Blazor.Grpc.Client.WebAssembly" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Contracts\Contracts.csproj" />
+	</ItemGroup>
+
+</Project>

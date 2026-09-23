@@ -1,0 +1,61 @@
+@attribute [Route(NavigationRoutes.Dogs.Index)]
+
+<PageTitle>Naši psi</PageTitle>
+
+<div class="page-header">
+	<div>
+		<h1 class="page-title">Naši psi</h1>
+		<p class="page-subtitle">@_subtitle</p>
+	</div>
+	<HxButton Text="Pridať psa"
+			  Icon="@BootstrapIcon.PlusLg"
+			  Color="ThemeColor.Primary"
+			  OnClick="NavigateToCreate" />
+</div>
+
+@if (_dogs is null)
+{
+	<div class="row row-cols-1 row-cols-lg-2 row-cols-xxl-3 g-3">
+		@for (int i = 0; i < SkeletonCount; i++)
+		{
+			<div class="col">
+				<DogCardSkeleton />
+			</div>
+		}
+	</div>
+}
+else if (_dogs.Count == 0)
+{
+	<HxCard>
+		<BodyTemplate>
+			<div class="text-center py-5">
+				<HxIcon Icon="@BootstrapIcon.HandThumbsUp" CssClass="display-4 text-body-tertiary" />
+				<p class="mt-3 mb-4 text-body-secondary">Zatiaľ tu nie je žiadny pes.</p>
+				<HxButton Text="Pridať prvého psa"
+						  Icon="@BootstrapIcon.PlusLg"
+						  Color="ThemeColor.Primary"
+						  OnClick="NavigateToCreate" />
+			</div>
+		</BodyTemplate>
+	</HxCard>
+}
+else
+{
+	<div class="row row-cols-1 row-cols-lg-2 row-cols-xxl-3 g-3">
+		@foreach (DogListItemDto dog in _dogs)
+		{
+			<div class="col">
+				<DogCard Dog="dog" />
+			</div>
+		}
+	</div>
+
+	@if (_reminders is not null)
+	{
+		<div class="mt-3">
+			<RemindersCard Reminders="_reminders" OnComplete="CompleteReminderAsync" />
+		</div>
+	}
+}
+
+<RecordEditModal @ref="_recordEditModal" OnSaved="LoadRemindersAsync" />

@@ -1,0 +1,23 @@
+<Project>
+
+	<PropertyGroup>
+		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageVersion Include="Havit.Blazor.Components.Web.Bootstrap" Version="4.27.0" />
+		<PackageVersion Include="Havit.Blazor.Grpc.Client" Version="1.8.8" />
+		<PackageVersion Include="Havit.Blazor.Grpc.Client.WebAssembly" Version="1.8.8" />
+		<PackageVersion Include="Havit.Blazor.Grpc.Core" Version="1.8.8" />
+		<PackageVersion Include="Havit.AspNetCore" Version="2.0.32" />
+		<PackageVersion Include="Havit.Blazor.Grpc.Server" Version="1.8.8" />
+		<PackageVersion Include="Havit.Core" Version="2.0.41" />
+		<PackageVersion Include="Havit.Extensions.DependencyInjection.Abstractions" Version="2.0.22" />
+		<PackageVersion Include="Havit.Extensions.DependencyInjection.SourceGenerators" Version="2.0.4" />
+		<PackageVersion Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.12" />
+		<PackageVersion Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="10.0.12" />
+		<PackageVersion Include="protobuf-net" Version="3.4.30" />
+		<PackageVersion Include="protobuf-net.Grpc" Version="1.3.14" />
+	</ItemGroup>
+
+</Project>

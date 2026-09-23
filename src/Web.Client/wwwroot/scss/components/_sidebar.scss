@@ -1,0 +1,54 @@
+@use "../abstracts/variables" as *;
+
+.hx-sidebar {
+	background-color: $sidebar-bg !important;
+	border-right: 1px solid $sidebar-border;
+	padding-block: .5rem;
+
+	.hx-sidebar-header {
+		padding: .75rem 1rem 1.25rem;
+	}
+
+	.hx-sidebar-brand {
+		gap: .75rem;
+		text-decoration: none;
+	}
+
+	.hx-sidebar-brand-name {
+		font-weight: 800;
+		font-size: 1.05rem;
+		color: $ink;
+	}
+
+	// Skrátený názov nahrádza logo labky.
+	.hx-sidebar-brand-shortname {
+		display: none;
+	}
+
+	.hx-sidebar-item {
+		border-radius: $radius-nav-item;
+		margin: .15rem .6rem;
+		padding: .6rem .85rem;
+		font-weight: 600;
+		color: $ink;
+
+		&:hover {
+			background-color: rgba($teal, .12);
+			color: $ink;
+		}
+
+		&.active {
+			background-color: $teal !important;
+			color: #fff !important;
+			box-shadow: 0 4px 10px rgba($teal, .25);
+
+			.hx-sidebar-item-icon {
+				color: #fff !important;
+			}
+		}
+	}
+
+	.hx-sidebar-item-icon {
+		color: #6e8a84;
+	}
+}

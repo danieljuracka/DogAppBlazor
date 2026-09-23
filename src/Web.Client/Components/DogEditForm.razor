@@ -1,0 +1,50 @@
+@* Formular profilu psa - pouziva sa pri zakladani aj pri uprave. *@
+
+<EditForm Model="Dog" OnValidSubmit="HandleValidSubmitAsync">
+	<DataAnnotationsValidator />
+
+	<div class="row g-3">
+		<div class="col-12 col-md-6">
+			<HxInputText Label="Meno" @bind-Value="Dog.Name" Hint="Ako psa voláte doma." />
+		</div>
+		<div class="col-12 col-md-6">
+			<HxInputText Label="Plemeno" @bind-Value="Dog.Breed" />
+		</div>
+		<div class="col-12 col-md-6">
+			<HxSelect TItem="SexEnum"
+					  TValue="SexEnum?"
+					  Label="Pohlavie"
+					  Data="Sexes"
+					  TextSelector="@(item => DogFormatter.GetSexText(item))"
+					  ValueSelector="@(item => (SexEnum?)item)"
+					  Nullable="true"
+					  NullText="Neuvedené"
+					  @bind-Value="Dog.Sex" />
+		</div>
+		<div class="col-12 col-md-6">
+			<HxInputDate TValue="DateTime?" Label="Dátum narodenia" @bind-Value="Dog.BirthDate" />
+		</div>
+		<div class="col-12">
+			<DogColorPicker @bind-Value="Dog.Color" />
+			<div class="form-text">Farba karty a avatara na úvodnej stránke.</div>
+		</div>
+		<div class="col-12">
+			<HxInputText Label="Číslo čipu" @bind-Value="Dog.MicrochipNumber" Hint="15-miestne číslo z očkovacieho preukazu." />
+		</div>
+		<div class="col-12">
+			<HxInputTextArea Label="Poznámka" @bind-Value="Dog.Note" Hint="Alergie, povaha, čokoľvek, čo je dobré mať po ruke u veterinára." />
+		</div>
+	</div>
+
+	<div class="d-flex flex-wrap gap-2 mt-4">
+		<HxSubmit Color="ThemeColor.Primary"
+				  Text="Uložiť"
+				  Icon="@BootstrapIcon.Check2"
+				  Enabled="!IsBusy" />
+		<HxButton Color="ThemeColor.Secondary"
+				  Outline="true"
+				  Text="Zrušiť"
+				  Enabled="!IsBusy"
+				  OnClick="OnCancel" />
+	</div>
+</EditForm>

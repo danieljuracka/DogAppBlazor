@@ -1,0 +1,68 @@
+@* Zoznam záznamov aj s pridávaním, úpravou a mazaním.
+   Používa sa na detaile psa (DogId je vyplnené) aj v prehľade naprieč psami. *@
+
+<HxCard>
+	<HeaderTemplate>
+		<div class="records-header">
+			<span>@Title</span>
+			<HxButton Text="Pridať záznam"
+					  Icon="@BootstrapIcon.PlusLg"
+					  Color="ThemeColor.Primary"
+					  Size="ButtonSize.Small"
+					  OnClick="AddAsync" />
+		</div>
+	</HeaderTemplate>
+	<BodyTemplate>
+		@if (ShowFilter)
+		{
+			<div class="records-filter">
+				<HxSelect TItem="DogListItemDto"
+						  TValue="int?"
+						  Label="Pes"
+						  Data="_dogs"
+						  TextSelector="@(item => item.Name)"
+						  ValueSelector="@(item => (int?)item.Id)"
+						  Nullable="true"
+						  NullText="Všetky"
+						  Value="_filter.DogId"
+						  ValueChanged="OnDogFilterChangedAsync"
+						  ValueExpression="@(() => _filter.DogId)" />
+
+				<HxSelect TItem="RecordTypeEnum"
+						  TValue="RecordTypeEnum?"
+						  Label="Druh"
+						  Data="RecordTypeFormatter.AllTypes"
+						  TextSelector="@(item => RecordTypeFormatter.GetLabel(item))"
+						  ValueSelector="@(item => (RecordTypeEnum?)item)"
+						  AutoSort="false"
+						  Nullable="true"
+						  NullText="Všetky"
+						  Value="_filter.Type"
+						  ValueChanged="OnTypeFilterChangedAsync"
+						  ValueExpression="@(() => _filter.Type)" />
+			</div>
+		}
+
+		@if (_records is null)
+		{
+			<div class="d-flex align-items-center gap-2 text-body-secondary">
+				<HxSpinner Size="SpinnerSize.Small" />
+				<span>Načítavam záznamy…</span>
+			</div>
+		}
+		else
+		{
+			<RecordTimeline Records="_records"
+							ShowDogName="ShowDogName"
+							OnSelect="ShowDetailAsync"
+							EmptyTitle="@EmptyTitle"
+							EmptyText="@EmptyText"
+							OnEdit="EditAsync"
+							OnDelete="DeleteAsync"
+							OnCompleteFollowUp="CompleteFollowUpAsync" />
+		}
+	</BodyTemplate>
+</HxCard>
+
+<RecordDetailModal @ref="_detailModal" OnEditRequested="EditAsync" />
+<RecordEditModal @ref="_editModal" OnSaved="HandleSavedAsync" />

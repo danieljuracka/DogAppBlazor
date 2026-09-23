@@ -1,0 +1,17 @@
+// DogAppBlazor - globálna téma.
+// Kompilácia: npm run compile:scss
+// Scoped štýly komponentov zostávajú v .razor.css súboroch vedľa komponentov.
+
+@use "abstracts/css-variables";
+
+@use "base/site";
+@use "base/buttons";
+@use "base/forms";
+
+@use "components/sidebar";
+@use "components/card";
+@use "components/timeline";
+@use "components/dog-card";
+@use "components/page-header";
+@use "components/badge";
+@use "components/toast";

@@ -1,0 +1,12 @@
+.record-type-badge {
+	display: inline-block;
+	padding: .2rem .55rem;
+	border-radius: .5rem;
+	font-size: .78rem;
+	font-weight: 700;
+	line-height: 1.35;
+	white-space: nowrap;
+	color: var(--record-type-color);
+	background-color: color-mix(in srgb, var(--record-type-color) 12%, #fff);
+	border: 1px solid color-mix(in srgb, var(--record-type-color) 28%, #fff);
+}

@@ -1,0 +1,42 @@
+.dog-card-name {
+	font-size: 1.3rem;
+	font-weight: 800;
+	line-height: 1.2;
+	color: var(--dog-ink);
+}
+
+.dog-card-breed {
+	color: var(--dog-muted);
+	font-size: .9rem;
+}
+
+.dog-card-stats {
+	display: flex;
+	gap: 1.5rem;
+	margin-top: 1.1rem;
+	padding-top: 1rem;
+	border-top: 1px solid rgba(46, 62, 68, .08);
+}
+
+.dog-card-stat-label {
+	font-size: .78rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: .04em;
+	color: var(--dog-muted);
+}
+
+.dog-card-stat-value {
+	font-weight: 700;
+	color: var(--dog-ink);
+}
+
+.dog-card-actions {
+	display: flex;
+	gap: .6rem;
+	margin-top: 1.1rem;
+}
+
+.dog-card-wrapper {
+	height: 100%;
+}

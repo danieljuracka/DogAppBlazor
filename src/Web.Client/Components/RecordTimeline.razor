@@ -1,0 +1,26 @@
+@* Časová os záznamov. Na detaile psa sa meno psa nezobrazuje. *@
+
+@if (Records.Count == 0)
+{
+	<div class="timeline-empty">
+		<HxIcon Icon="@BootstrapIcon.CalendarHeart" CssClass="timeline-empty-icon" />
+		<div>
+			<div class="fw-bold">@EmptyTitle</div>
+			<div class="text-body-secondary">@EmptyText</div>
+		</div>
+	</div>
+}
+else
+{
+	<ol class="timeline">
+		@foreach (RecordListItemDto record in Records)
+		{
+			<RecordTimelineItem Record="record"
+								ShowDogName="ShowDogName"
+								OnSelect="OnSelect"
+								OnEdit="OnEdit"
+								OnDelete="OnDelete"
+								OnCompleteFollowUp="OnCompleteFollowUp" />
+		}
+	</ol>
+}

@@ -1,0 +1,77 @@
+@* Modálne okno na pridanie a úpravu záznamu. Otvára sa metódami ShowNewAsync / ShowEditAsync / ShowFollowUpAsync. *@
+
+<HxModal @ref="_modal" Title="@_title" Size="ModalSize.Large" Backdrop="ModalBackdrop.Static" OnClosed="HandleClosed">
+	<BodyTemplate>
+		@if (_record is not null)
+		{
+			<EditForm Model="_record" OnValidSubmit="SaveAsync">
+				<DataAnnotationsValidator />
+
+				@if (_followUpOf is not null)
+				{
+					<div class="follow-up-info">
+						<HxIcon Icon="@BootstrapIcon.CheckCircle" CssClass="follow-up-info-icon" />
+						<div>
+							Vybavuješ termín <strong>@_followUpOf.Title</strong>
+							z @DateFormatter.ToShortDate(_followUpOf.NextDueOn.Value).
+							<span class="text-body-secondary">Údaje sú predvyplnené podľa pôvodného záznamu.</span>
+						</div>
+					</div>
+				}
+
+				<div class="row g-3">
+					<div class="col-12 col-md-6">
+						<HxSelect TItem="DogListItemDto"
+								  TValue="int"
+								  Label="Pes"
+								  Data="_dogs"
+								  TextSelector="@(item => item.Name)"
+								  ValueSelector="@(item => item.Id)"
+								  Nullable="false"
+								  @bind-Value="_record.DogId" />
+					</div>
+					<div class="col-12 col-md-6">
+						<HxSelect TItem="RecordTypeEnum"
+								  TValue="RecordTypeEnum"
+								  Label="Druh záznamu"
+								  Data="RecordTypeFormatter.AllTypes"
+								  TextSelector="@(item => RecordTypeFormatter.GetLabel(item))"
+								  ValueSelector="@(item => item)"
+								  AutoSort="false"
+								  Nullable="false"
+								  @bind-Value="_record.Type" />
+					</div>
+					<div class="col-12 col-md-6">
+						<HxInputDate TValue="DateTime?" Label="Dátum" @bind-Value="_record.OccurredOn" />
+					</div>
+					<div class="col-12 col-md-6">
+						<HxInputDate TValue="DateTime?"
+									 Label="Ďalší termín"
+									 Hint="Napríklad kedy má byť ďalšie očkovanie."
+									 @bind-Value="_record.NextDueOn" />
+					</div>
+					<div class="col-12">
+						<HxInputText Label="Čo sa stalo" @bind-Value="_record.Title" Hint="Krátko, napríklad „Hnačka“ alebo „Očkovanie proti besnote“." />
+					</div>
+					<div class="col-12">
+						<HxInputTextArea Label="Podrobnosti" @bind-Value="_record.Description" />
+					</div>
+					<div class="col-12 col-md-4">
+						<HxInputText Label="Veterinár" @bind-Value="_record.VetName" />
+					</div>
+					<div class="col-6 col-md-4">
+						<HxInputNumber TValue="decimal?" Label="Cena (€)" Decimals="2" @bind-Value="_record.Cost" />
+					</div>
+					<div class="col-6 col-md-4">
+						<HxInputNumber TValue="decimal?" Label="Hmotnosť (kg)" Decimals="2" @bind-Value="_record.WeightKg" />
+					</div>
+				</div>
+
+				<div class="d-flex flex-wrap gap-2 mt-4">
+					<HxSubmit Color="ThemeColor.Primary" Text="Uložiť" Icon="@BootstrapIcon.Check2" Enabled="!_isBusy" />
+					<HxButton Color="ThemeColor.Secondary" Outline="true" Text="Zrušiť" Enabled="!_isBusy" OnClick="HideAsync" />
+				</div>
+			</EditForm>
+		}
+	</BodyTemplate>
+</HxModal>

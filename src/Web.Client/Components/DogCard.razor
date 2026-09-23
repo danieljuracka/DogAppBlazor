@@ -1,0 +1,40 @@
+@* Karta psa v zozname - podklad, rámik aj avatar sú odvodené od farby psa. *@
+
+<div class="dog-card-wrapper" style="@ColorStyle">
+	<HxCard CssClass="dog-card h-100">
+		<BodyTemplate>
+			<div class="d-flex align-items-center gap-3">
+				<DogAvatar Name="@Dog.Name" Size="64" Color="@_color" RingColor="@_color" />
+				<div class="flex-grow-1 overflow-hidden">
+					<div class="dog-card-name text-truncate">@Dog.Name</div>
+					<div class="dog-card-breed text-truncate">@BreedText</div>
+				</div>
+			</div>
+
+			<div class="dog-card-stats">
+				<div class="dog-card-stat">
+					<div class="dog-card-stat-label">Vek</div>
+					<div class="dog-card-stat-value">@(_ageText ?? "—")</div>
+				</div>
+				<div class="dog-card-stat">
+					<div class="dog-card-stat-label">Pohlavie</div>
+					<div class="dog-card-stat-value">@(_sexText ?? "—")</div>
+				</div>
+			</div>
+
+			<div class="dog-card-actions">
+				<HxButton Text="Profil"
+						  Icon="@BootstrapIcon.Person"
+						  Color="ThemeColor.Secondary"
+						  Outline="true"
+						  CssClass="flex-fill"
+						  OnClick="NavigateToDetail" />
+				<HxButton Text="Upraviť"
+						  Icon="@BootstrapIcon.Pencil"
+						  Color="ThemeColor.Primary"
+						  CssClass="flex-fill"
+						  OnClick="NavigateToEdit" />
+			</div>
+		</BodyTemplate>
+	</HxCard>
+</div>
