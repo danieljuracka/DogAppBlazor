@@ -1,0 +1,4 @@
+﻿<Solution>
+  <Project Path="src/DogAppBlazor.Client/DogAppBlazor.Client.csproj" />
+  <Project Path="src/DogAppBlazor/DogAppBlazor.csproj" />
+</Solution>

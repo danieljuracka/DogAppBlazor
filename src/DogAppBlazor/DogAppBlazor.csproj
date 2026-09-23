@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NewProjectTemplate.Client\NewProjectTemplate.Client.csproj" />
+    <ProjectReference Include="..\DogAppBlazor.Client\DogAppBlazor.Client.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="10.0.5" />
   </ItemGroup>
 

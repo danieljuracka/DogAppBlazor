@@ -1,7 +1,7 @@
-using Havit.Blazor.Components.Web;
+﻿using Havit.Blazor.Components.Web;
 using Havit.Blazor.Components.Web.Bootstrap;
-using NewProjectTemplate.Client.Pages;
-using NewProjectTemplate.Components;
+using DogAppBlazor.Client.Pages;
+using DogAppBlazor.Components;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,6 +37,6 @@ app.MapStaticAssets();
 app.MapRazorComponents<App>()
 	.AddInteractiveServerRenderMode()
 	.AddInteractiveWebAssemblyRenderMode()
-	.AddAdditionalAssemblies(typeof(NewProjectTemplate.Client._Imports).Assembly);
+	.AddAdditionalAssemblies(typeof(DogAppBlazor.Client._Imports).Assembly);
 
 app.Run();
