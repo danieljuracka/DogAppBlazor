@@ -26,13 +26,13 @@ public static class NavigationRoutes
 		/// </summary>
 		public const string Index = Home;
 
-		public const string Create = "/pes/novy";
-		public const string Detail = "/pes/{Id:int}";
-		public const string Edit = "/pes/{Id:int}/upravit";
+		public const string Create = "/dog/new";
+		public const string Detail = "/dog/{Id:int}";
+		public const string Edit = "/dog/{Id:int}/edit";
 
-		public static string GetDetail(int dogId) => $"/pes/{dogId}";
+		public static string GetDetail(int dogId) => $"/dog/{dogId}";
 
-		public static string GetEdit(int dogId) => $"/pes/{dogId}/upravit";
+		public static string GetEdit(int dogId) => $"/dog/{dogId}/edit";
 	}
 
 	#endregion
@@ -41,7 +41,24 @@ public static class NavigationRoutes
 
 	public static class Records
 	{
-		public const string Index = "/zaznamy";
+		public const string Index = "/records";
+	}
+
+	#endregion
+
+	#region PetPhotos
+
+	/// <summary>
+	/// Fotky zvierat - nie sú to stránky, fotky vydáva endpoint servera.
+	/// </summary>
+	public static class PetPhotos
+	{
+		public const string Photo = "/pet-photos/{fileName}";
+
+		/// <summary>
+		/// URL fotky. Keď fotka nie je, vráti null.
+		/// </summary>
+		public static string GetPhoto(string photoFileName) => String.IsNullOrEmpty(photoFileName) ? null : $"/pet-photos/{Uri.EscapeDataString(photoFileName)}";
 	}
 
 	#endregion

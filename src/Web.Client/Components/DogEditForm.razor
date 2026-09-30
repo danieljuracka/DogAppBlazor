@@ -4,6 +4,12 @@
 	<DataAnnotationsValidator />
 
 	<div class="row g-3">
+		<div class="col-12">
+			<DogPhotoPicker @bind-Value="Dog.PhotoFileName"
+							@bind-IsUploading="_isUploading"
+							DogName="@Dog.Name"
+							DogColor="@Dog.Color" />
+		</div>
 		<div class="col-12 col-md-6">
 			<HxInputText Label="Meno" @bind-Value="Dog.Name" Hint="Ako psa voláte doma." />
 		</div>
@@ -40,7 +46,7 @@
 		<HxSubmit Color="ThemeColor.Primary"
 				  Text="Uložiť"
 				  Icon="@BootstrapIcon.Check2"
-				  Enabled="!IsBusy" />
+				  Enabled="!IsBusy && !_isUploading" />
 		<HxButton Color="ThemeColor.Secondary"
 				  Outline="true"
 				  Text="Zrušiť"

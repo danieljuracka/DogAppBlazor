@@ -18,7 +18,7 @@ else if (_dog is null)
 else
 {
 	<div class="dog-hero" style="@HeroStyle">
-		<DogAvatar Name="@_dog.Name" Size="84" Color="@_color" RingColor="@_color" />
+		<DogAvatar Name="@_dog.Name" Size="84" Color="@_color" RingColor="@_color" PhotoUrl="@NavigationRoutes.PetPhotos.GetPhoto(_dog.PhotoFileName)" />
 		<div class="flex-grow-1 overflow-hidden">
 			<h1 class="dog-hero-name">@_dog.Name</h1>
 			<div class="dog-hero-breed">@BreedText</div>

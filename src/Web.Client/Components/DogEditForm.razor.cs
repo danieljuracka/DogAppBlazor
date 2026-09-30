@@ -7,6 +7,8 @@ public partial class DogEditForm : ComponentBase
 {
 	private static readonly SexEnum[] Sexes = [SexEnum.Male, SexEnum.Female];
 
+	private bool _isUploading;
+
 	[Parameter, EditorRequired] public DogDto Dog { get; set; }
 
 	/// <summary>

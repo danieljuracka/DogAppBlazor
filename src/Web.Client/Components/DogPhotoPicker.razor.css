@@ -1,0 +1,9 @@
+/* Tlačidlo je label so skrytým InputFile - klik aj klávesnica otvoria výber súboru. */
+.dog-photo-picker label.btn {
+	cursor: pointer;
+	margin-bottom: 0;
+}
+
+	.dog-photo-picker label.btn:focus-within {
+		box-shadow: 0 0 0 .25rem rgba(var(--bs-primary-rgb), .25);
+	}

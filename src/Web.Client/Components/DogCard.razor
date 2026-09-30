@@ -4,7 +4,7 @@
 	<HxCard CssClass="dog-card h-100">
 		<BodyTemplate>
 			<div class="d-flex align-items-center gap-3">
-				<DogAvatar Name="@Dog.Name" Size="64" Color="@_color" RingColor="@_color" />
+				<DogAvatar Name="@Dog.Name" Size="64" Color="@_color" RingColor="@_color" PhotoUrl="@NavigationRoutes.PetPhotos.GetPhoto(Dog.PhotoFileName)" />
 				<div class="flex-grow-1 overflow-hidden">
 					<div class="dog-card-name text-truncate">@Dog.Name</div>
 					<div class="dog-card-breed text-truncate">@BreedText</div>

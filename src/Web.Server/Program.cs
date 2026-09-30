@@ -1,6 +1,9 @@
 using Azure.Data.Tables;
+using Azure.Storage.Blobs;
 using DogAppBlazor.Contracts;
+using DogAppBlazor.Contracts.Photos;
 using DogAppBlazor.Facades;
+using DogAppBlazor.Facades.Photos;
 using DogAppBlazor.Facades.Storage;
 using DogAppBlazor.Web.Server.Components;
 using DogAppBlazor.Web.Client;
@@ -41,6 +44,7 @@ if (String.IsNullOrWhiteSpace(azureStorageConnectionString))
 	throw new InvalidOperationException("Chýba connection string 'AzureStorage'. Lokálne ho nastav cez: dotnet user-secrets set \"ConnectionStrings:AzureStorage\" \"<connection string>\" --project src/Web.Server");
 }
 builder.Services.AddSingleton(new TableServiceClient(azureStorageConnectionString));
+builder.Services.AddSingleton(new BlobServiceClient(azureStorageConnectionString));
 
 var app = builder.Build();
 
@@ -72,6 +76,21 @@ app.UseGrpcWeb(new GrpcWebOptions() { DefaultEnabled = true });
 
 app.MapStaticAssets();
 app.MapGrpcServicesByApiContractAttributes(typeof(Dto).Assembly);
+
+// Fotky zvierat - blob kontajner je súkromný, fotky preto vydáva server.
+// Názov fotky sa nikdy nemení (nová fotka = nový názov), takže sa môže cachovať natrvalo.
+app.MapGet(NavigationRoutes.PetPhotos.Photo, async (string fileName, PetPhotoStorage petPhotoStorage, HttpContext httpContext, CancellationToken cancellationToken) =>
+{
+	Stream photo = await petPhotoStorage.OpenReadAsync(fileName, cancellationToken);
+	if (photo is null)
+	{
+		return Results.NotFound();
+	}
+
+	httpContext.Response.Headers.CacheControl = "private, max-age=31536000, immutable";
+	httpContext.Response.Headers.XContentTypeOptions = "nosniff";
+	return Results.Stream(photo, PetPhotoUploadDto.ContentType);
+});
 app.MapRazorComponents<App>()
 	.AddInteractiveServerRenderMode()
 	.AddInteractiveWebAssemblyRenderMode()

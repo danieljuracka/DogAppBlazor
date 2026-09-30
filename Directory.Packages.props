@@ -6,6 +6,7 @@
 
 	<ItemGroup>
 		<PackageVersion Include="Azure.Data.Tables" Version="12.13.0" />
+		<PackageVersion Include="Azure.Storage.Blobs" Version="12.29.2" />
 		<PackageVersion Include="Havit.Blazor.Components.Web.Bootstrap" Version="4.27.0" />
 		<PackageVersion Include="Havit.Blazor.Grpc.Client" Version="1.8.8" />
 		<PackageVersion Include="Havit.Blazor.Grpc.Client.WebAssembly" Version="1.8.8" />
