@@ -29,4 +29,10 @@ public interface IRecordFacade
 	/// Vráti termíny, ktoré sa blížia alebo sú už po dátume, zoradené od najnaliehavejšieho.
 	/// </summary>
 	Task<List<ReminderDto>> GetUpcomingRemindersAsync(CancellationToken cancellationToken = default);
+
+	/// <summary>
+	/// Vráti všetky zaznamenané hmotnosti psa zoradené od najstaršej. Započítava sa každý záznam
+	/// s vyplnenou hmotnosťou, nielen druh „Váženie“ - psa často odvážia aj u veterinára.
+	/// </summary>
+	Task<List<WeightPointDto>> GetWeightHistoryAsync(Dto<int> dogId, CancellationToken cancellationToken = default);
 }

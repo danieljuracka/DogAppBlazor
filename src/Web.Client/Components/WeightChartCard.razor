@@ -1,0 +1,74 @@
+@* Vývoj hmotnosti psa. Graf sa kreslí až od dvoch vážení, jedno sa ukáže len ako hodnota. *@
+
+<HxCard>
+	<HeaderTemplate>Vývoj hmotnosti</HeaderTemplate>
+	<BodyTemplate>
+		@if (_points is null)
+		{
+			<div class="d-flex align-items-center gap-2 text-body-secondary">
+				<HxSpinner Size="SpinnerSize.Small" />
+				<span>Načítavam váženia…</span>
+			</div>
+		}
+		else if (_points.Count == 0)
+		{
+			<div class="weight-empty">
+				<HxIcon Icon="@BootstrapIcon.GraphUp" CssClass="timeline-empty-icon" />
+				<div>
+					<div class="fw-bold">Zatiaľ žiadne váženie</div>
+					<div class="text-body-secondary">
+						Pridaj záznam „Váženie“, alebo vyplň hmotnosť pri návšteve veterinára — graf sa poskladá zo všetkých.
+					</div>
+				</div>
+			</div>
+		}
+		else
+		{
+			<div class="weight-summary">
+				<div>
+					<div class="weight-summary-label">Aktuálne</div>
+					<div class="weight-summary-value">@FormatKg(Latest.WeightKg) kg</div>
+					<div class="weight-summary-note">@DateFormatter.ToShortDate(Latest.Date)</div>
+				</div>
+				@if (Previous is not null)
+				{
+					<div>
+						<div class="weight-summary-label">Zmena</div>
+						<div class="weight-summary-value">@ChangeText</div>
+						<div class="weight-summary-note">od @DateFormatter.ToShortDate(Previous.Date)</div>
+					</div>
+				}
+			</div>
+
+			@if (_points.Count >= MinPointsForChart)
+			{
+				<HxEChart Options="_chartOptions" AutoResize="true" Height="260px" />
+			}
+			else
+			{
+				<p class="text-body-secondary mb-0 mt-2">Graf sa zobrazí od druhého váženia.</p>
+			}
+
+			<details class="weight-table">
+				<summary>Zobraziť všetky hodnoty</summary>
+				<table class="table table-sm mb-0 mt-2">
+					<thead>
+						<tr>
+							<th scope="col">Dátum</th>
+							<th scope="col" class="text-end">Hmotnosť</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (WeightPointDto point in Enumerable.Reverse(_points))
+						{
+							<tr>
+								<td>@DateFormatter.ToShortDate(point.Date)</td>
+								<td class="text-end">@FormatKg(point.WeightKg) kg</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			</details>
+		}
+	</BodyTemplate>
+</HxCard>

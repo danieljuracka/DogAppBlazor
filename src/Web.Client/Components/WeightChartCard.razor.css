@@ -1,0 +1,43 @@
+.weight-summary {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 2rem;
+	margin-bottom: 1rem;
+}
+
+.weight-summary-label {
+	font-size: .78rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: .04em;
+	color: var(--dog-muted);
+}
+
+.weight-summary-value {
+	font-size: 1.5rem;
+	font-weight: 800;
+	line-height: 1.2;
+	color: var(--dog-ink);
+}
+
+.weight-summary-note {
+	font-size: .85rem;
+	color: var(--dog-muted);
+}
+
+.weight-table {
+	margin-top: .75rem;
+	font-size: .9rem;
+}
+
+	.weight-table summary {
+		cursor: pointer;
+		color: var(--dog-teal);
+		font-weight: 600;
+	}
+
+.weight-empty {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+}

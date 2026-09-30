@@ -103,6 +103,25 @@ public class RecordFacade(RecordStorage recordStorage, DogStorage dogStorage) : 
 		return result;
 	}
 
+	public async Task<List<WeightPointDto>> GetWeightHistoryAsync(Dto<int> dogId, CancellationToken cancellationToken = default)
+	{
+		Contract.Requires<ArgumentNullException>(dogId is not null);
+
+		List<RecordDto> allRecords = await _recordStorage.GetAllAsync(cancellationToken);
+
+		return allRecords
+			.Where(r => (r.DogId == dogId.Value) && (r.WeightKg is not null) && (r.OccurredOn is not null))
+			.OrderBy(r => r.OccurredOn.Value)
+			.ThenBy(r => r.Id)
+			.Select(r => new WeightPointDto
+			{
+				RecordId = r.Id,
+				Date = r.OccurredOn.Value.Date,
+				WeightKg = r.WeightKg.Value
+			})
+			.ToList();
+	}
+
 	/// <summary>
 	/// Id záznamov, ktorých „ďalší termín“ už vybavil iný záznam.
 	/// Keď sa nadväzujúci záznam zmaže, termín sa automaticky znova otvorí.
