@@ -3,6 +3,7 @@
 	<PropertyGroup>
 		<AssemblyName>DogAppBlazor.Web.Server</AssemblyName>
 		<RootNamespace>DogAppBlazor.Web.Server</RootNamespace>
+		<UserSecretsId>8549d289-b572-4dfc-8526-422cd79ccc13</UserSecretsId>
 	</PropertyGroup>
 
 	<ItemGroup>

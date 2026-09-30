@@ -17,12 +17,12 @@ public class RecordFacade(RecordStorage recordStorage, DogStorage dogStorage) : 
 	private readonly RecordStorage _recordStorage = recordStorage;
 	private readonly DogStorage _dogStorage = dogStorage;
 
-	public Task<List<RecordListItemDto>> GetRecordsAsync(RecordFilterDto filter, CancellationToken cancellationToken = default)
+	public async Task<List<RecordListItemDto>> GetRecordsAsync(RecordFilterDto filter, CancellationToken cancellationToken = default)
 	{
 		Contract.Requires<ArgumentNullException>(filter is not null);
 
-		Dictionary<int, string> dogNames = GetDogNames();
-		List<RecordDto> allRecords = _recordStorage.GetAll();
+		Dictionary<int, string> dogNames = await GetDogNamesAsync(cancellationToken);
+		List<RecordDto> allRecords = await _recordStorage.GetAllAsync(cancellationToken);
 		HashSet<int> completedIds = GetCompletedRecordIds(allRecords);
 
 		List<RecordListItemDto> result = allRecords
@@ -48,40 +48,39 @@ public class RecordFacade(RecordStorage recordStorage, DogStorage dogStorage) : 
 			})
 			.ToList();
 
-		return Task.FromResult(result);
+		return result;
 	}
 
-	public Task<RecordDto> GetRecordAsync(Dto<int> id, CancellationToken cancellationToken = default)
+	public async Task<RecordDto> GetRecordAsync(Dto<int> id, CancellationToken cancellationToken = default)
 	{
 		Contract.Requires<ArgumentNullException>(id is not null);
 
-		return Task.FromResult(_recordStorage.Find(id.Value));
+		return await _recordStorage.FindAsync(id.Value, cancellationToken);
 	}
 
-	public Task<Dto<int>> UpdateRecordAsync(RecordDto recordDto, CancellationToken cancellationToken = default)
+	public async Task<Dto<int>> UpdateRecordAsync(RecordDto recordDto, CancellationToken cancellationToken = default)
 	{
 		Contract.Requires<ArgumentNullException>(recordDto is not null);
 		Contract.Requires<ArgumentException>(recordDto.DogId > 0);
 		Contract.Requires<ArgumentException>(recordDto.OccurredOn is not null);
 		Contract.Requires<ArgumentException>(!String.IsNullOrWhiteSpace(recordDto.Title));
 
-		return Task.FromResult(Dto.FromValue(_recordStorage.Upsert(recordDto)));
+		return Dto.FromValue(await _recordStorage.UpsertAsync(recordDto, cancellationToken));
 	}
 
-	public Task DeleteRecordAsync(Dto<int> id, CancellationToken cancellationToken = default)
+	public async Task DeleteRecordAsync(Dto<int> id, CancellationToken cancellationToken = default)
 	{
 		Contract.Requires<ArgumentNullException>(id is not null);
 
-		_recordStorage.Delete(id.Value);
-		return Task.CompletedTask;
+		await _recordStorage.DeleteAsync(id.Value, cancellationToken);
 	}
 
-	public Task<List<ReminderDto>> GetUpcomingRemindersAsync(CancellationToken cancellationToken = default)
+	public async Task<List<ReminderDto>> GetUpcomingRemindersAsync(CancellationToken cancellationToken = default)
 	{
 		DateTime today = DateTime.Today;
 		DateTime horizon = today.AddDays(ReminderHorizonDays);
-		Dictionary<int, string> dogNames = GetDogNames();
-		List<RecordDto> allRecords = _recordStorage.GetAll();
+		Dictionary<int, string> dogNames = await GetDogNamesAsync(cancellationToken);
+		List<RecordDto> allRecords = await _recordStorage.GetAllAsync(cancellationToken);
 		HashSet<int> completedIds = GetCompletedRecordIds(allRecords);
 
 		List<ReminderDto> result = allRecords
@@ -101,7 +100,7 @@ public class RecordFacade(RecordStorage recordStorage, DogStorage dogStorage) : 
 			})
 			.ToList();
 
-		return Task.FromResult(result);
+		return result;
 	}
 
 	/// <summary>
@@ -116,8 +115,8 @@ public class RecordFacade(RecordStorage recordStorage, DogStorage dogStorage) : 
 			.ToHashSet();
 	}
 
-	private Dictionary<int, string> GetDogNames()
+	private async Task<Dictionary<int, string>> GetDogNamesAsync(CancellationToken cancellationToken)
 	{
-		return _dogStorage.GetAll().ToDictionary(d => d.Id, d => d.Name);
+		return (await _dogStorage.GetAllAsync(cancellationToken)).ToDictionary(d => d.Id, d => d.Name);
 	}
 }

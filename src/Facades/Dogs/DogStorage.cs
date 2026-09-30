@@ -1,108 +1,89 @@
+using Azure;
+using Azure.Data.Tables;
 using DogAppBlazor.Contracts.Dogs;
+using DogAppBlazor.Facades.Storage;
 using Havit.Extensions.DependencyInjection.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DogAppBlazor.Facades.Dogs;
 
 /// <summary>
-/// Docasne uloziste psov v pamati. Nahradi sa napojenim na databazu.
-/// Data zijú len pocas behu aplikacie.
+/// Úložisko psov v Azure Table Storage (tabuľka <see cref="TableNames.Dogs"/>).
+/// Všetci psi sú v jednej partícii, kľúčom riadku je Id.
 /// </summary>
 [Service(ServiceType = typeof(DogStorage), Lifetime = ServiceLifetime.Singleton)]
-public class DogStorage
+public class DogStorage(TableServiceClient tableServiceClient, IdGenerator idGenerator)
 {
-	private readonly Lock _lock = new();
-	private readonly List<DogDto> _dogs;
-	private int _nextId;
+	private const string PartitionKey = "Dog";
 
-	public DogStorage()
-	{
-		_dogs =
-		[
-			new DogDto
-			{
-				Id = 1,
-				Name = "Gusto",
-				Color = "#4e9086",
-				Breed = "Zlatý retríver",
-				Sex = SexEnum.Male,
-				BirthDate = new DateTime(2019, 5, 14),
-				MicrochipNumber = "203098100123456",
-				Note = "Miluje vodu a aport. Alergia na kuracie mäso."
-			},
-			new DogDto
-			{
-				Id = 2,
-				Name = "Jonatán",
-				Color = "#c48a1a",
-				Breed = "Border kólia",
-				Sex = SexEnum.Male,
-				BirthDate = new DateTime(2022, 9, 2),
-				MicrochipNumber = "203098100654321",
-				Note = "Veľmi energický, potrebuje veľa pohybu."
-			}
-		];
-		_nextId = 3;
-	}
+	private readonly TableClient _tableClient = tableServiceClient.GetTableClient(TableNames.Dogs);
+	private readonly IdGenerator _idGenerator = idGenerator;
 
-	public List<DogDto> GetAll()
+	public async Task<List<DogDto>> GetAllAsync(CancellationToken cancellationToken = default)
 	{
-		lock (_lock)
+		List<DogDto> result = [];
+		await foreach (TableEntity entity in _tableClient.QueryAsync<TableEntity>(e => e.PartitionKey == PartitionKey, cancellationToken: cancellationToken))
 		{
-			return _dogs.ConvertAll(Clone);
+			result.Add(ToDto(entity));
 		}
+		return result;
 	}
 
-	public DogDto Find(int id)
+	public async Task<DogDto> FindAsync(int id, CancellationToken cancellationToken = default)
 	{
-		lock (_lock)
-		{
-			DogDto dog = _dogs.SingleOrDefault(d => d.Id == id);
-			return (dog is null) ? null : Clone(dog);
-		}
+		NullableResponse<TableEntity> response = await _tableClient.GetEntityIfExistsAsync<TableEntity>(PartitionKey, TableEntityExtensions.ToRowKey(id), cancellationToken: cancellationToken);
+		return response.HasValue ? ToDto(response.Value) : null;
 	}
 
-	public int Upsert(DogDto dogDto)
+	public async Task<int> UpsertAsync(DogDto dogDto, CancellationToken cancellationToken = default)
 	{
-		lock (_lock)
+		if (dogDto.Id == 0)
 		{
-			if (dogDto.Id == 0)
-			{
-				DogDto newDog = Clone(dogDto);
-				newDog.Id = _nextId++;
-				_dogs.Add(newDog);
-				return newDog.Id;
-			}
-
-			DogDto existing = _dogs.SingleOrDefault(d => d.Id == dogDto.Id)
-				?? throw new InvalidOperationException($"Pes s Id {dogDto.Id} neexistuje.");
-
-			existing.Name = dogDto.Name;
-			existing.Breed = dogDto.Breed;
-			existing.Sex = dogDto.Sex;
-			existing.BirthDate = dogDto.BirthDate;
-			existing.MicrochipNumber = dogDto.MicrochipNumber;
-			existing.Note = dogDto.Note;
-			existing.PhotoFileName = dogDto.PhotoFileName;
-			existing.Color = dogDto.Color;
-
-			return existing.Id;
+			int newId = await _idGenerator.GetNextIdAsync(TableNames.Dogs, cancellationToken);
+			await _tableClient.AddEntityAsync(ToEntity(newId, dogDto), cancellationToken);
+			return newId;
 		}
+
+		try
+		{
+			await _tableClient.UpdateEntityAsync(ToEntity(dogDto.Id, dogDto), ETag.All, TableUpdateMode.Replace, cancellationToken);
+		}
+		catch (RequestFailedException ex) when (ex.Status == 404)
+		{
+			throw new InvalidOperationException($"Pes s Id {dogDto.Id} neexistuje.", ex);
+		}
+
+		return dogDto.Id;
 	}
 
-	private static DogDto Clone(DogDto source)
+	private static TableEntity ToEntity(int id, DogDto dogDto)
+	{
+		return new TableEntity(PartitionKey, TableEntityExtensions.ToRowKey(id))
+		{
+			[nameof(DogDto.Name)] = dogDto.Name,
+			[nameof(DogDto.Breed)] = dogDto.Breed,
+			[nameof(DogDto.Sex)] = dogDto.Sex?.ToString(),
+			[nameof(DogDto.BirthDate)] = TableEntityExtensions.ToStorageDate(dogDto.BirthDate),
+			[nameof(DogDto.MicrochipNumber)] = dogDto.MicrochipNumber,
+			[nameof(DogDto.Note)] = dogDto.Note,
+			[nameof(DogDto.PhotoFileName)] = dogDto.PhotoFileName,
+			[nameof(DogDto.Color)] = dogDto.Color
+		};
+	}
+
+	private static DogDto ToDto(TableEntity entity)
 	{
 		return new DogDto
 		{
-			Id = source.Id,
-			Name = source.Name,
-			Breed = source.Breed,
-			Sex = source.Sex,
-			BirthDate = source.BirthDate,
-			MicrochipNumber = source.MicrochipNumber,
-			Note = source.Note,
-			PhotoFileName = source.PhotoFileName,
-			Color = source.Color
+			Id = entity.GetId(),
+			Name = entity.GetString(nameof(DogDto.Name)),
+			Breed = entity.GetString(nameof(DogDto.Breed)),
+			Sex = entity.GetEnum<SexEnum>(nameof(DogDto.Sex)),
+			BirthDate = entity.GetDate(nameof(DogDto.BirthDate)),
+			MicrochipNumber = entity.GetString(nameof(DogDto.MicrochipNumber)),
+			Note = entity.GetString(nameof(DogDto.Note)),
+			PhotoFileName = entity.GetString(nameof(DogDto.PhotoFileName)),
+			Color = entity.GetString(nameof(DogDto.Color))
 		};
 	}
 }

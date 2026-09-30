@@ -10,9 +10,9 @@ public class DogFacade(DogStorage dogStorage) : IDogFacade
 {
 	private readonly DogStorage _dogStorage = dogStorage;
 
-	public Task<List<DogListItemDto>> GetDogsAsync(CancellationToken cancellationToken = default)
+	public async Task<List<DogListItemDto>> GetDogsAsync(CancellationToken cancellationToken = default)
 	{
-		List<DogListItemDto> result = _dogStorage.GetAll()
+		List<DogListItemDto> result = (await _dogStorage.GetAllAsync(cancellationToken))
 			.OrderBy(d => d.Name)
 			.Select(d => new DogListItemDto
 			{
@@ -26,22 +26,22 @@ public class DogFacade(DogStorage dogStorage) : IDogFacade
 			})
 			.ToList();
 
-		return Task.FromResult(result);
+		return result;
 	}
 
-	public Task<DogDto> GetDogAsync(Dto<int> id, CancellationToken cancellationToken = default)
+	public async Task<DogDto> GetDogAsync(Dto<int> id, CancellationToken cancellationToken = default)
 	{
 		Contract.Requires<ArgumentNullException>(id is not null);
 
-		return Task.FromResult(_dogStorage.Find(id.Value));
+		return await _dogStorage.FindAsync(id.Value, cancellationToken);
 	}
 
-	public Task<Dto<int>> UpdateDogAsync(DogDto dogDto, CancellationToken cancellationToken = default)
+	public async Task<Dto<int>> UpdateDogAsync(DogDto dogDto, CancellationToken cancellationToken = default)
 	{
 		Contract.Requires<ArgumentNullException>(dogDto is not null);
 		Contract.Requires<ArgumentException>(!String.IsNullOrWhiteSpace(dogDto.Name));
 		Contract.Requires<ArgumentException>((dogDto.Color is null) || Regex.IsMatch(dogDto.Color, DogDto.ColorPattern));
 
-		return Task.FromResult(Dto.FromValue(_dogStorage.Upsert(dogDto)));
+		return Dto.FromValue(await _dogStorage.UpsertAsync(dogDto, cancellationToken));
 	}
 }

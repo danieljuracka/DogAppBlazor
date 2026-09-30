@@ -1,5 +1,7 @@
+using Azure.Data.Tables;
 using DogAppBlazor.Contracts;
 using DogAppBlazor.Facades;
+using DogAppBlazor.Facades.Storage;
 using DogAppBlazor.Web.Server.Components;
 using DogAppBlazor.Web.Client;
 using DogAppBlazor.Web.Client.Services;
@@ -31,7 +33,19 @@ builder.Services.AddExceptionMonitoring(builder.Configuration);
 builder.Services.AddGrpcServerInfrastructure(assemblyToScanForDataContracts: typeof(Dto).Assembly);
 builder.Services.AddFacadesByServiceAttribute();
 
+// Azure Table Storage - connection string sa cita z konfiguracie
+// (lokalne z User Secrets, v Azure z App Service > Environment variables > Connection strings).
+string azureStorageConnectionString = builder.Configuration.GetConnectionString("AzureStorage");
+if (String.IsNullOrWhiteSpace(azureStorageConnectionString))
+{
+	throw new InvalidOperationException("Chýba connection string 'AzureStorage'. Lokálne ho nastav cez: dotnet user-secrets set \"ConnectionStrings:AzureStorage\" \"<connection string>\" --project src/Web.Server");
+}
+builder.Services.AddSingleton(new TableServiceClient(azureStorageConnectionString));
+
 var app = builder.Build();
+
+// Vytvori tabulky, ktore v Storage accounte este neexistuju.
+await app.Services.GetRequiredService<TableStorageInitializer>().InitializeAsync();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -63,4 +77,4 @@ app.MapRazorComponents<App>()
 	.AddInteractiveWebAssemblyRenderMode()
 	.AddAdditionalAssemblies(typeof(DogAppBlazor.Web.Client._Imports).Assembly);
 
-app.Run();
+await app.RunAsync();
