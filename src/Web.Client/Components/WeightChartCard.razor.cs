@@ -78,6 +78,18 @@ public partial class WeightChartCard : ComponentBase
 		return value.ToString("0.##", CultureInfo.CurrentCulture);
 	}
 
+	/// <summary>
+	/// Najmenší krok osi X v milisekundách. Do troch mesiacov nechá ECharts značky na dňoch,
+	/// pri dlhšom rozsahu sa vynúti mesačný krok.
+	/// </summary>
+	private double GetMinAxisInterval()
+	{
+		const double DayInMilliseconds = 24 * 60 * 60 * 1000;
+
+		double spanInDays = (_points[^1].Date - _points[0].Date).TotalDays;
+		return (spanInDays > 90) ? (28 * DayInMilliseconds) : 0;
+	}
+
 	private void BuildChartOptions()
 	{
 		if ((_points is null) || (_points.Count < MinPointsForChart))
@@ -114,6 +126,9 @@ public partial class WeightChartCard : ComponentBase
 			XAxis = new
 			{
 				Type = "time",
+				// Pri dlhšom rozsahu ECharts pridáva aj značky uprostred mesiaca a popisky sa
+				// potom miešajú („17. 3.“ vedľa „apr“). Mesačný krok tomu zabráni.
+				MinInterval = GetMinAxisInterval(),
 				AxisLine = new { LineStyle = new { Color = GridColor } },
 				AxisTick = new { Show = false },
 				SplitLine = new { Show = false },
