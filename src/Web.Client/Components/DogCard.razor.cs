@@ -1,6 +1,7 @@
 using DogAppBlazor.Contracts.Dogs;
 using DogAppBlazor.Web.Client.Services;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace DogAppBlazor.Web.Client.Components;
 
@@ -10,9 +11,15 @@ public partial class DogCard : ComponentBase
 
 	[Parameter, EditorRequired] public DogListItemDto Dog { get; set; }
 
+	/// <summary>
+	/// Vyvolá sa klikom na fotku psa (len keď pes fotku má).
+	/// </summary>
+	[Parameter] public EventCallback<DogListItemDto> OnPhotoClick { get; set; }
+
 	private string _sexText;
 	private string _ageText;
 	private string _color;
+	private string _photoUrl;
 
 	private string BreedText => String.IsNullOrWhiteSpace(Dog.Breed) ? "Plemeno neuvedené" : Dog.Breed;
 
@@ -23,6 +30,7 @@ public partial class DogCard : ComponentBase
 		_sexText = DogFormatter.GetSexText(Dog.Sex);
 		_ageText = DogFormatter.GetAgeText(Dog.BirthDate);
 		_color = DogColors.Normalize(Dog.Color);
+		_photoUrl = NavigationRoutes.PetPhotos.GetPhoto(Dog.PhotoFileName);
 	}
 
 	private void NavigateToDetail()
@@ -30,8 +38,16 @@ public partial class DogCard : ComponentBase
 		NavigationManager.NavigateTo(NavigationRoutes.Dogs.GetDetail(Dog.Id));
 	}
 
-	private void NavigateToEdit()
+	private void HandleKeyDown(KeyboardEventArgs e)
 	{
-		NavigationManager.NavigateTo(NavigationRoutes.Dogs.GetEdit(Dog.Id));
+		if (e.Key is "Enter")
+		{
+			NavigateToDetail();
+		}
+	}
+
+	private Task ShowPhotoAsync()
+	{
+		return OnPhotoClick.InvokeAsync(Dog);
 	}
 }

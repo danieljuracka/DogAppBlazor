@@ -15,6 +15,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Havit.Blazor.Components.Web.Bootstrap" />
+		<PackageReference Include="Havit.Blazor.Components.Web.ECharts" />
 		<PackageReference Include="Havit.Blazor.Grpc.Client" />
 		<PackageReference Include="Havit.Blazor.Grpc.Client.WebAssembly" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" />

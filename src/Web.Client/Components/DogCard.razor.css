@@ -31,12 +31,53 @@
 	color: var(--dog-ink);
 }
 
-.dog-card-actions {
-	display: flex;
-	gap: .6rem;
-	margin-top: 1.1rem;
-}
-
 .dog-card-wrapper {
 	height: 100%;
+	cursor: pointer;
+	border-radius: 1.15rem;
+}
+
+.dog-card-wrapper ::deep .dog-card {
+	transition: transform .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+.dog-card-wrapper:hover ::deep .dog-card {
+	transform: translateY(-2px);
+	box-shadow: 0 8px 20px rgba(46, 62, 68, .1);
+}
+
+.dog-card-wrapper:focus-visible {
+	outline: 2px solid var(--dog-color);
+	outline-offset: 2px;
+}
+
+.dog-card-wrapper ::deep .dog-card-chevron {
+	flex: 0 0 auto;
+	font-size: 1.1rem;
+	color: var(--dog-muted);
+	transition: transform .15s ease-in-out;
+}
+
+.dog-card-wrapper:hover ::deep .dog-card-chevron {
+	transform: translateX(2px);
+}
+
+.dog-card-photo {
+	display: inline-flex;
+	flex: 0 0 auto;
+	padding: 0;
+	border: 0;
+	border-radius: 50%;
+	background: none;
+	cursor: zoom-in;
+	transition: transform .15s ease-in-out;
+}
+
+.dog-card-photo:hover {
+	transform: scale(1.05);
+}
+
+.dog-card-photo:focus-visible {
+	outline: 2px solid var(--dog-color);
+	outline-offset: 6px;
 }

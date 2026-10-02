@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta name="theme-color" content="#e8734c" />
+	<title>Naši psi - offline</title>
+	<style>
+		body {
+			margin: 0;
+			min-height: 100vh;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			gap: 1rem;
+			padding: 1rem;
+			box-sizing: border-box;
+			background-color: #fffbf7;
+			color: #3a2f2a;
+			font-family: Nunito, system-ui, sans-serif;
+			text-align: center;
+		}
+
+		img {
+			width: 96px;
+			height: 96px;
+			border-radius: 24px;
+		}
+
+		button {
+			padding: .6rem 1.4rem;
+			border: 0;
+			border-radius: 999px;
+			background-color: #e8734c;
+			color: #fff;
+			font: inherit;
+			font-weight: 700;
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body>
+	<img src="icons/icon-192.png" alt="" />
+	<h1>Ste offline</h1>
+	<p>Aplikácia potrebuje pripojenie k internetu. Skontrolujte pripojenie a skúste to znova.</p>
+	<button type="button" onclick="location.reload()">Skúsiť znova</button>
+</body>
+</html>

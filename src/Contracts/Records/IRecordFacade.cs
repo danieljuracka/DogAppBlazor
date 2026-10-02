@@ -31,6 +31,12 @@ public interface IRecordFacade
 	Task<List<ReminderDto>> GetUpcomingRemindersAsync(CancellationToken cancellationToken = default);
 
 	/// <summary>
+	/// Vráti všetky zaznamenané hmotnosti psa zoradené od najstaršej. Započítava sa každý záznam
+	/// s vyplnenou hmotnosťou, nielen druh „Váženie“ - psa často odvážia aj u veterinára.
+	/// </summary>
+	Task<List<WeightPointDto>> GetWeightHistoryAsync(Dto<int> dogId, CancellationToken cancellationToken = default);
+
+	/// <summary>
 	/// Vráti súhrn nákladov zo záznamov s vyplnenou cenou podľa filtra.
 	/// </summary>
 	Task<CostSummaryDto> GetCostSummaryAsync(CostSummaryFilterDto filter, CancellationToken cancellationToken = default);

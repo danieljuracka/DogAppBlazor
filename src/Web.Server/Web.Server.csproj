@@ -8,6 +8,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Havit.Blazor.Components.Web.Bootstrap" />
+		<PackageReference Include="Havit.Blazor.Components.Web.ECharts" />
 		<PackageReference Include="Havit.AspNetCore" />
 		<PackageReference Include="Havit.Blazor.Grpc.Server" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" />

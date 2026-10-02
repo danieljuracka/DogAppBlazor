@@ -87,10 +87,15 @@ else
 		</div>
 
 		<div class="col-12">
+			<WeightChartCard @ref="_weightChart" DogId="Id" Color="@_color" />
+		</div>
+
+		<div class="col-12">
 			<RecordsSection DogId="Id"
 							Title="Záznamy"
 							EmptyTitle="Zatiaľ žiadne záznamy"
-							EmptyText="Pridaj prvú návštevu veterinára, očkovanie alebo čokoľvek, čo je dobré si pamätať." />
+							EmptyText="Pridaj prvú návštevu veterinára, očkovanie alebo čokoľvek, čo je dobré si pamätať."
+							OnChanged="RefreshWeightChartAsync" />
 		</div>
 	</div>
 }
