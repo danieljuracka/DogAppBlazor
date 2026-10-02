@@ -22,6 +22,7 @@ public partial class Home : ComponentBase
 	private List<DogListItemDto> _dogs;
 	private List<ReminderDto> _reminders;
 	private RecordEditModal _recordEditModal;
+	private DogPhotoModal _dogPhotoModal;
 	private string _subtitle = "Načítavam…";
 
 	protected override async Task OnInitializedAsync()
@@ -40,6 +41,11 @@ public partial class Home : ComponentBase
 	private Task CompleteReminderAsync(int recordId)
 	{
 		return _recordEditModal.ShowFollowUpAsync(recordId);
+	}
+
+	private Task ShowPhotoAsync(DogListItemDto dog)
+	{
+		return _dogPhotoModal.ShowAsync(dog.Name, NavigationRoutes.PetPhotos.GetPhoto(dog.PhotoFileName));
 	}
 
 	private void NavigateToCreate()

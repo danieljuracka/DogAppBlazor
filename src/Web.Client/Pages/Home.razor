@@ -7,10 +7,6 @@
 		<h1 class="page-title">Naši psi</h1>
 		<p class="page-subtitle">@_subtitle</p>
 	</div>
-	<HxButton Text="Pridať psa"
-			  Icon="@BootstrapIcon.PlusLg"
-			  Color="ThemeColor.Primary"
-			  OnClick="NavigateToCreate" />
 </div>
 
 @if (_dogs is null)
@@ -45,7 +41,7 @@ else
 		@foreach (DogListItemDto dog in _dogs)
 		{
 			<div class="col">
-				<DogCard Dog="dog" />
+				<DogCard Dog="dog" OnPhotoClick="ShowPhotoAsync" />
 			</div>
 		}
 	</div>
@@ -59,3 +55,4 @@ else
 }
 
 <RecordEditModal @ref="_recordEditModal" OnSaved="LoadRemindersAsync" />
+<DogPhotoModal @ref="_dogPhotoModal" />

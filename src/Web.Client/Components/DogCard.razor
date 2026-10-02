@@ -1,14 +1,37 @@
-@* Karta psa v zozname - podklad, rámik aj avatar sú odvodené od farby psa. *@
+@* Karta psa v zozname - podklad, rámik aj avatar sú odvodené od farby psa.
+   Klik na kartu otvorí profil psa, klik na fotku ju zobrazí zväčšenú. *@
 
-<div class="dog-card-wrapper" style="@ColorStyle">
+<div class="dog-card-wrapper"
+	 style="@ColorStyle"
+	 role="link"
+	 tabindex="0"
+	 aria-label="@($"Profil psa {Dog.Name}")"
+	 @onclick="NavigateToDetail"
+	 @onkeydown="HandleKeyDown">
 	<HxCard CssClass="dog-card h-100">
 		<BodyTemplate>
 			<div class="d-flex align-items-center gap-3">
-				<DogAvatar Name="@Dog.Name" Size="64" Color="@_color" RingColor="@_color" PhotoUrl="@NavigationRoutes.PetPhotos.GetPhoto(Dog.PhotoFileName)" />
+				@if (_photoUrl is not null)
+				{
+					<button type="button"
+							class="dog-card-photo"
+							title="Zobraziť fotku"
+							aria-label="@($"Zobraziť fotku psa {Dog.Name}")"
+							@onclick="ShowPhotoAsync"
+							@onclick:stopPropagation="true"
+							@onkeydown:stopPropagation="true">
+						<DogAvatar Name="@Dog.Name" Size="64" Color="@_color" RingColor="@_color" PhotoUrl="@_photoUrl" />
+					</button>
+				}
+				else
+				{
+					<DogAvatar Name="@Dog.Name" Size="64" Color="@_color" RingColor="@_color" />
+				}
 				<div class="flex-grow-1 overflow-hidden">
 					<div class="dog-card-name text-truncate">@Dog.Name</div>
 					<div class="dog-card-breed text-truncate">@BreedText</div>
 				</div>
+				<HxIcon Icon="@BootstrapIcon.ChevronRight" CssClass="dog-card-chevron" />
 			</div>
 
 			<div class="dog-card-stats">
@@ -20,20 +43,6 @@
 					<div class="dog-card-stat-label">Pohlavie</div>
 					<div class="dog-card-stat-value">@(_sexText ?? "—")</div>
 				</div>
-			</div>
-
-			<div class="dog-card-actions">
-				<HxButton Text="Profil"
-						  Icon="@BootstrapIcon.Person"
-						  Color="ThemeColor.Secondary"
-						  Outline="true"
-						  CssClass="flex-fill"
-						  OnClick="NavigateToDetail" />
-				<HxButton Text="Upraviť"
-						  Icon="@BootstrapIcon.Pencil"
-						  Color="ThemeColor.Primary"
-						  CssClass="flex-fill"
-						  OnClick="NavigateToEdit" />
 			</div>
 		</BodyTemplate>
 	</HxCard>

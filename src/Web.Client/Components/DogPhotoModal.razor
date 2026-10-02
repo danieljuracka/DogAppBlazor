@@ -1,0 +1,10 @@
+@* Zväčšená fotka psa v popupe. *@
+
+<HxModal @ref="_modal" Title="@_dogName" Size="ModalSize.Large" Centered="true" OnClosed="HandleClosed">
+	<BodyTemplate>
+		@if (_photoUrl is not null)
+		{
+			<img src="@_photoUrl" alt="@($"Fotka psa {_dogName}")" class="dog-photo-modal-image" />
+		}
+	</BodyTemplate>
+</HxModal>
