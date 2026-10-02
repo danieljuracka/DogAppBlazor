@@ -36,6 +36,11 @@ public partial class DogDetailPage : ComponentBase
 		NavigationManager.NavigateTo(NavigationRoutes.Dogs.Index);
 	}
 
+	private void NavigateToCosts()
+	{
+		NavigationManager.NavigateTo(NavigationRoutes.Costs.GetIndex(Id));
+	}
+
 	private void NavigateToEdit()
 	{
 		NavigationManager.NavigateTo(NavigationRoutes.Dogs.GetEdit(Id));

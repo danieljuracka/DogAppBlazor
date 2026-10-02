@@ -1,0 +1,144 @@
+@attribute [Route(NavigationRoutes.Costs.Index)]
+
+<PageTitle>Náklady</PageTitle>
+
+<div class="page-header">
+	<div>
+		<h1 class="page-title">Náklady</h1>
+		<p class="page-subtitle">Koľko nás psi stoja — zo záznamov, ktoré majú vyplnenú cenu.</p>
+	</div>
+	<div class="costs-filter">
+		<HxSelect TItem="int"
+				  TValue="int?"
+				  Label="Obdobie"
+				  Data="_availableYears"
+				  TextSelector="@(item => item.ToString())"
+				  ValueSelector="@(item => (int?)item)"
+				  AutoSort="false"
+				  Nullable="true"
+				  NullText="Celé obdobie"
+				  Value="SelectedYear"
+				  ValueChanged="OnYearChanged"
+				  ValueExpression="@(() => SelectedYear)" />
+
+		<HxSelect TItem="DogListItemDto"
+				  TValue="int?"
+				  Label="Pes"
+				  Data="_dogs"
+				  TextSelector="@(item => item.Name)"
+				  ValueSelector="@(item => (int?)item.Id)"
+				  Nullable="true"
+				  NullText="Všetci"
+				  Value="SelectedDogId"
+				  ValueChanged="OnDogChanged"
+				  ValueExpression="@(() => SelectedDogId)" />
+	</div>
+</div>
+
+@if (_summary is null)
+{
+	<div class="d-flex align-items-center gap-2 text-body-secondary">
+		<HxSpinner Size="SpinnerSize.Small" />
+		<span>Počítam náklady…</span>
+	</div>
+}
+else
+{
+	<div class="row g-3">
+		<div class="col-12 col-md-4">
+			<div class="cost-stat cost-stat-primary">
+				<div class="cost-stat-label">Spolu @PeriodText</div>
+				<div class="cost-stat-value">@CostFormatter.ToMoney(_summary.Total)</div>
+			</div>
+		</div>
+		<div class="col-6 col-md-4">
+			<div class="cost-stat">
+				<div class="cost-stat-label">Priemerne za mesiac</div>
+				<div class="cost-stat-value">@CostFormatter.ToMoney(_summary.MonthlyAverage)</div>
+			</div>
+		</div>
+		<div class="col-6 col-md-4">
+			<div class="cost-stat">
+				<div class="cost-stat-label">Záznamov s cenou</div>
+				<div class="cost-stat-value">@_summary.RecordCount</div>
+			</div>
+		</div>
+
+		@if (_summary.RecordCount == 0)
+		{
+			<div class="col-12">
+				<HxCard>
+					<BodyTemplate>
+						<div class="costs-empty">
+							<HxIcon Icon="@BootstrapIcon.Wallet2" CssClass="costs-empty-icon" />
+							<div>
+								<div class="fw-bold">Žiadne náklady</div>
+								<div class="text-body-secondary">
+									Za zvolené obdobie tu nie je žiadny záznam s cenou. Cenu vyplníš pri
+									<a href="@NavigationRoutes.Records.Index">zázname</a> — napríklad pri návšteve veterinára.
+								</div>
+							</div>
+						</div>
+					</BodyTemplate>
+				</HxCard>
+			</div>
+		}
+		else
+		{
+			<div class="col-12">
+				<HxCard>
+					<HeaderTemplate>@ChartTitle</HeaderTemplate>
+					<BodyTemplate>
+						<CostPeriodChart Items="_summary.ByPeriod" />
+					</BodyTemplate>
+				</HxCard>
+			</div>
+
+			<div class="@(DogId is null ? "col-12 col-lg-6" : "col-12")">
+				<HxCard CssClass="h-100">
+					<HeaderTemplate>Podľa druhu</HeaderTemplate>
+					<BodyTemplate>
+						<CostShareList Items="_byType" />
+					</BodyTemplate>
+				</HxCard>
+			</div>
+
+			@if (DogId is null)
+			{
+				<div class="col-12 col-lg-6">
+					<HxCard CssClass="h-100">
+						<HeaderTemplate>Podľa psa</HeaderTemplate>
+						<BodyTemplate>
+							<CostShareList Items="_byDog" />
+						</BodyTemplate>
+					</HxCard>
+				</div>
+			}
+
+			<div class="col-12">
+				<HxCard>
+					<HeaderTemplate>Najdrahšie položky</HeaderTemplate>
+					<BodyTemplate>
+						<ul class="cost-top-list">
+							@foreach (CostRecordDto record in _summary.TopRecords)
+							{
+								<li class="cost-top-item">
+									<div class="cost-top-date">@DateFormatter.ToShortDate(record.OccurredOn)</div>
+									<div class="flex-grow-1 overflow-hidden">
+										<div class="cost-top-title text-truncate">@record.Title</div>
+										@if (DogId is null)
+										{
+											<a href="@NavigationRoutes.Dogs.GetDetail(record.DogId)" class="cost-top-dog">@record.DogName</a>
+										}
+									</div>
+									<RecordTypeBadge Type="record.Type" />
+									<div class="cost-top-amount">@CostFormatter.ToMoney(record.Cost)</div>
+								</li>
+							}
+						</ul>
+					</BodyTemplate>
+				</HxCard>
+			</div>
+		}
+	</div>
+}

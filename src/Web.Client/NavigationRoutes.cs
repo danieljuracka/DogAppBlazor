@@ -46,6 +46,29 @@ public static class NavigationRoutes
 
 	#endregion
 
+	#region Costs
+
+	public static class Costs
+	{
+		public const string Index = "/costs";
+
+		/// <summary>
+		/// Query parameter s Id psa.
+		/// </summary>
+		public const string DogQueryName = "dog";
+
+		/// <summary>
+		/// Query parameter s rokom alebo hodnotou <see cref="AllYearsQueryValue"/>. Keď chýba, zobrazí sa aktuálny rok.
+		/// </summary>
+		public const string YearQueryName = "year";
+
+		public const string AllYearsQueryValue = "all";
+
+		public static string GetIndex(int dogId) => $"{Index}?{DogQueryName}={dogId}";
+	}
+
+	#endregion
+
 	#region PetPhotos
 
 	/// <summary>

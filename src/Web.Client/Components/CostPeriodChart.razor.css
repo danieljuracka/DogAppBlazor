@@ -1,0 +1,64 @@
+.cost-chart {
+	display: flex;
+	align-items: stretch;
+	gap: .4rem;
+	height: 14rem;
+}
+
+.cost-chart-column {
+	flex: 1 1 0;
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: .35rem;
+}
+
+.cost-chart-value {
+	font-size: .72rem;
+	font-weight: 700;
+	color: var(--dog-muted);
+	white-space: nowrap;
+	min-height: 1rem;
+}
+
+.cost-chart-track {
+	flex: 1 1 auto;
+	width: 100%;
+	max-width: 3rem;
+	display: flex;
+	align-items: flex-end;
+	border-bottom: 2px solid var(--dog-line);
+}
+
+.cost-chart-bar {
+	width: 100%;
+	min-height: 0;
+	border-radius: .45rem .45rem 0 0;
+	background-color: color-mix(in srgb, var(--dog-teal) 55%, #fff);
+	transition: height .3s ease;
+}
+
+.cost-chart-bar-current {
+	background-color: var(--dog-teal);
+}
+
+.cost-chart-column:hover .cost-chart-bar {
+	background-color: var(--dog-teal-dark);
+}
+
+.cost-chart-label {
+	font-size: .78rem;
+	font-weight: 600;
+	color: var(--dog-muted);
+}
+
+@media (max-width: 575.98px) {
+	.cost-chart {
+		gap: .2rem;
+	}
+
+	.cost-chart-value {
+		display: none;
+	}
+}

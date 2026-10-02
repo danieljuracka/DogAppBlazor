@@ -1,0 +1,34 @@
+@* Rozpis nákladov podľa kategórie - každý riadok s pruhom podľa podielu na celku. *@
+
+@if (Items.Count == 0)
+{
+	<span class="text-body-secondary">Žiadne náklady.</span>
+}
+else
+{
+	<ul class="cost-share-list">
+		@foreach (CostShareItem item in Items)
+		{
+			<li class="cost-share-item" style="@GetStyle(item)">
+				<div class="cost-share-row">
+					<span class="cost-share-dot"></span>
+					<span class="cost-share-label text-truncate">
+						@if (item.Href is null)
+						{
+							@item.Label
+						}
+						else
+						{
+							<a href="@item.Href">@item.Label</a>
+						}
+					</span>
+					<span class="cost-share-count">@CostFormatter.GetRecordCountText(item.RecordCount)</span>
+					<span class="cost-share-total">@CostFormatter.ToMoney(item.Total)</span>
+				</div>
+				<div class="cost-share-track">
+					<div class="cost-share-bar"></div>
+				</div>
+			</li>
+		}
+	</ul>
+}

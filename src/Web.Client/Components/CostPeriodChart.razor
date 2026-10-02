@@ -1,0 +1,14 @@
+@* Stĺpcový graf nákladov po mesiacoch alebo rokoch. *@
+
+<div class="cost-chart" role="img" aria-label="@AriaLabel">
+	@foreach (CostByPeriodDto item in Items)
+	{
+		<div class="cost-chart-column" title="@GetTooltip(item)">
+			<div class="cost-chart-value">@(item.Total > 0 ? GetShortAmount(item.Total) : "")</div>
+			<div class="cost-chart-track">
+				<div class="@GetBarCssClass(item)" style="@GetBarStyle(item)"></div>
+			</div>
+			<div class="cost-chart-label">@GetLabel(item)</div>
+		</div>
+	}
+</div>

@@ -1,6 +1,6 @@
 <HxSidebar CssClass="sticky-top">
 	<HeaderTemplate>
-		<HxSidebarBrand BrandName="Naši psi" BrandNameShort="NP">
+		<HxSidebarBrand>
 			<LogoTemplate>
 				<AppLogo />
 			</LogoTemplate>
@@ -15,6 +15,9 @@
 		<HxSidebarItem Text="Záznamy"
 					   Href="@NavigationRoutes.Records.Index"
 					   Icon="@BootstrapIcon.ListNested" />
+		<HxSidebarItem Text="Náklady"
+					   Href="@NavigationRoutes.Costs.Index"
+					   Icon="@BootstrapIcon.Wallet2" />
 		<HxSidebarItem Text="Pridať psa"
 					   Href="@NavigationRoutes.Dogs.Create"
 					   Icon="@BootstrapIcon.PlusSquareFill" />

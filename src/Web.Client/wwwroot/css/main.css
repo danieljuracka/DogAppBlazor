@@ -121,15 +121,14 @@ h1:focus {
   padding: 0.75rem 1rem 1.25rem;
 }
 .hx-sidebar .hx-sidebar-brand {
-  gap: 0.75rem;
   text-decoration: none;
 }
-.hx-sidebar .hx-sidebar-brand-name {
-  font-weight: 800;
-  font-size: 1.05rem;
-  color: #2e3e44;
+@media (min-width: 768px) {
+  .hx-sidebar .hx-sidebar-brand {
+    justify-content: center;
+  }
 }
-.hx-sidebar .hx-sidebar-brand-shortname {
+.hx-sidebar .hx-sidebar-brand-name:empty {
   display: none;
 }
 .hx-sidebar .hx-sidebar-item {

@@ -29,4 +29,9 @@ public interface IRecordFacade
 	/// Vráti termíny, ktoré sa blížia alebo sú už po dátume, zoradené od najnaliehavejšieho.
 	/// </summary>
 	Task<List<ReminderDto>> GetUpcomingRemindersAsync(CancellationToken cancellationToken = default);
+
+	/// <summary>
+	/// Vráti súhrn nákladov zo záznamov s vyplnenou cenou podľa filtra.
+	/// </summary>
+	Task<CostSummaryDto> GetCostSummaryAsync(CostSummaryFilterDto filter, CancellationToken cancellationToken = default);
 }

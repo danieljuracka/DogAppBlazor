@@ -9,19 +9,18 @@
 		padding: .75rem 1rem 1.25rem;
 	}
 
+	// Odkaz s logom vypĺňa celú šírku hlavičky (flex-grow z Havitu), logo sa preto centruje v ňom.
+	// Na mobile je v hlavičke aj tlačidlo menu, preto sa logo centruje len v bočnom paneli.
 	.hx-sidebar-brand {
-		gap: .75rem;
 		text-decoration: none;
+
+		@media (min-width: 768px) {
+			justify-content: center;
+		}
 	}
 
-	.hx-sidebar-brand-name {
-		font-weight: 800;
-		font-size: 1.05rem;
-		color: $ink;
-	}
-
-	// Skrátený názov nahrádza logo labky.
-	.hx-sidebar-brand-shortname {
+	// Sidebar je bez názvu, HxSidebarBrand však renderuje prázdny span, ktorého medzera by logo posunula.
+	.hx-sidebar-brand-name:empty {
 		display: none;
 	}
 
