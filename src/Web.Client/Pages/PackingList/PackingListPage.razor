@@ -1,0 +1,200 @@
+@attribute [Route(NavigationRoutes.PackingList.Index)]
+
+<PageTitle>Baliaci zoznam</PageTitle>
+
+<div class="page-header">
+	<div>
+		<h1 class="page-title">Baliaci zoznam</h1>
+	</div>
+	<div class="packing-header-actions">
+		@* Na mobile krátky text, aby sa tlačidlá zmestili do jedného riadku. *@
+		<HxButton Icon="@BootstrapIcon.PlusLg"
+				  Color="ThemeColor.Secondary"
+				  Outline="true"
+				  AriaLabel="Pridať položku"
+				  Enabled="_items is not null"
+				  OnClick="() => AddAsync(null)">
+			<span class="d-sm-none">Pridať</span>
+			<span class="d-none d-sm-inline">Pridať položku</span>
+		</HxButton>
+		<HxButton Icon="@BootstrapIcon.FileEarmarkExcel"
+				  Color="ThemeColor.Primary"
+				  AriaLabel="Exportovať do Excelu"
+				  Enabled="_items is not null"
+				  OnClick="ExportAsync">
+			<span class="d-sm-none">Export</span>
+			<span class="d-none d-sm-inline">Exportovať do Excelu</span>
+		</HxButton>
+	</div>
+</div>
+
+@if (_items is null)
+{
+	<div class="d-flex align-items-center gap-2 text-body-secondary">
+		<HxSpinner Size="SpinnerSize.Small" />
+		<span>Načítavam baliaci zoznam…</span>
+	</div>
+}
+else
+{
+	<div class="row g-3 mb-3">
+		<div class="col-4">
+			<div class="packing-stat">
+				<div class="packing-stat-label">Položiek</div>
+				<div class="packing-stat-value">@TotalCount</div>
+			</div>
+		</div>
+		<div class="col-4">
+			<div class="packing-stat packing-stat-primary">
+				<div class="packing-stat-label">Zbalené</div>
+				<div class="packing-stat-value">@PackedCount</div>
+			</div>
+		</div>
+		<div class="col-4">
+			<div class="packing-stat">
+				<div class="packing-stat-label">Zostáva</div>
+				<div class="packing-stat-value">@(TotalCount - PackedCount)</div>
+			</div>
+		</div>
+
+		<div class="col-12">
+			<HxCard>
+				<BodyTemplate>
+					<div class="packing-progress-heading">
+						<span class="fw-bold">@ProgressText</span>
+						<span class="packing-progress-percent">@ProgressPercent %</span>
+					</div>
+					<HxProgress Height="12" CssClass="packing-progress">
+						<HxProgressBar Value="ProgressPercent" CssClass="packing-progress-bar" />
+					</HxProgress>
+					<div class="packing-progress-actions">
+						@* Na mobile krátky text, aby sa tlačidlá zmestili do jedného riadku. *@
+						<HxButton Icon="@BootstrapIcon.CheckAll"
+								  Color="ThemeColor.Secondary"
+								  Outline="true"
+								  Size="ButtonSize.Small"
+								  AriaLabel="Označiť všetko ako zbalené"
+								  Enabled="PackedCount < TotalCount"
+								  OnClick="PackAllAsync">
+							<span class="d-sm-none">Zbaliť všetko</span>
+							<span class="d-none d-sm-inline">Označiť všetko ako zbalené</span>
+						</HxButton>
+						<HxButton Icon="@BootstrapIcon.ArrowCounterclockwise"
+								  Color="ThemeColor.Secondary"
+								  Outline="true"
+								  Size="ButtonSize.Small"
+								  AriaLabel="Začať baliť odznova"
+								  Enabled="PackedCount > 0"
+								  OnClick="ResetAsync">
+							<span class="d-sm-none">Odznova</span>
+							<span class="d-none d-sm-inline">Začať baliť odznova</span>
+						</HxButton>
+					</div>
+				</BodyTemplate>
+			</HxCard>
+		</div>
+	</div>
+
+	@if (_items.Count == 0)
+	{
+		<HxCard>
+			<BodyTemplate>
+				<div class="packing-empty">
+					<HxIcon Icon="@BootstrapIcon.Backpack2" CssClass="packing-empty-icon" />
+					<div class="flex-grow-1">
+						<div class="fw-bold">Zoznam je prázdny</div>
+						<div class="text-body-secondary">Pridaj prvú vec, ktorú si chceš na cestu zbaliť.</div>
+					</div>
+					<HxButton Text="Pridať položku"
+							  Icon="@BootstrapIcon.PlusLg"
+							  Color="ThemeColor.Primary"
+							  OnClick="() => AddAsync(null)" />
+				</div>
+			</BodyTemplate>
+		</HxCard>
+	}
+	else
+	{
+		<div class="packing-filter">
+			@* Filtre sú bez popiskov, aby na mobile zaberali čo najmenej miesta - význam nesie placeholder a ikona. *@
+			<HxInputText Placeholder="Hľadať položku…"
+						 Type="InputType.Search"
+						 BindEvent="BindEvent.OnInput"
+						 CssClass="packing-filter-search"
+						 AdditionalAttributes="_searchInputAttributes"
+						 @bind-Value="_searchText">
+				<InputGroupStartTemplate>
+					<span class="input-group-text"><HxIcon Icon="@BootstrapIcon.Search" /></span>
+				</InputGroupStartTemplate>
+			</HxInputText>
+
+			<HxSelect TItem="string"
+					  TValue="string"
+					  Data="_usedCategories"
+					  TextSelector="@(item => item)"
+					  ValueSelector="@(item => item)"
+					  AutoSort="false"
+					  Nullable="true"
+					  NullText="Všetky kategórie"
+					  CssClass="packing-filter-category"
+					  AdditionalAttributes="_categorySelectAttributes"
+					  @bind-Value="_categoryFilter" />
+
+			<div class="packing-filter-status">
+				<HxButtonGroup AriaLabel="Filter podľa stavu balenia">
+					@foreach (PackingStatusFilter status in Enum.GetValues<PackingStatusFilter>())
+					{
+						<HxButton Text="@GetStatusFilterText(status)"
+								  Color="ThemeColor.Secondary"
+								  Outline="true"
+								  CssClass="@(_statusFilter == status ? "active" : null)"
+								  OnClick="() => SetStatusFilter(status)" />
+					}
+				</HxButtonGroup>
+			</div>
+		</div>
+
+		List<PackingCategoryGroup> groups = GetVisibleGroups();
+
+		@if (groups.Count == 0)
+		{
+			<HxCard>
+				<BodyTemplate>
+					<div class="packing-empty">
+						<HxIcon Icon="@BootstrapIcon.Search" CssClass="packing-empty-icon" />
+						<div class="flex-grow-1">
+							<div class="fw-bold">@(IsStatusOnlyFilter && (_statusFilter == PackingStatusFilter.NotPacked) ? "Všetko je zbalené" : "Nič sa nenašlo")</div>
+							<div class="text-body-secondary">Zvolenému filtru nezodpovedá žiadna položka.</div>
+						</div>
+						<HxButton Text="Zrušiť filtre"
+								  Icon="@BootstrapIcon.XLg"
+								  Color="ThemeColor.Secondary"
+								  Outline="true"
+								  OnClick="ClearFilters" />
+					</div>
+				</BodyTemplate>
+			</HxCard>
+		}
+		else
+		{
+			<div class="packing-groups">
+				@foreach (PackingCategoryGroup group in groups)
+				{
+					<PackingCategoryCard @key="group.Category"
+										 Category="@group.Category"
+										 Items="group.Items"
+										 PackedCount="group.PackedCount"
+										 TotalCount="group.TotalCount"
+										 IsCollapsed="_collapsedCategories.Contains(group.Category)"
+										 OnToggleCollapsed="() => ToggleCollapsed(group.Category)"
+										 OnPackedChanged="SavePackedAsync"
+										 OnAdd="AddAsync"
+										 OnEdit="EditAsync"
+										 OnDelete="DeleteAsync" />
+				}
+			</div>
+		}
+	}
+}
+
+<PackingItemEditModal @ref="_editModal" Categories="_suggestedCategories" OnSaved="ReloadAsync" />

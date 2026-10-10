@@ -1,0 +1,133 @@
+.packing-category ::deep .packing-category-header {
+	display: flex;
+	align-items: center;
+	gap: .5rem;
+	padding-block: .6rem;
+}
+
+.packing-category-toggle {
+	display: flex;
+	align-items: center;
+	gap: .6rem;
+	flex-grow: 1;
+	min-width: 0;
+	padding: .2rem 0;
+	border: 0;
+	background: none;
+	color: inherit;
+	font-weight: 700;
+	text-align: left;
+}
+
+	.packing-category-toggle ::deep .packing-category-chevron {
+		color: var(--dog-muted);
+		font-size: .85rem;
+	}
+
+.packing-category-name {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.packing-category-count {
+	flex: 0 0 auto;
+	font-size: .8rem;
+	font-weight: 700;
+	color: var(--dog-muted);
+	background-color: #fff;
+	border: 1px solid var(--dog-line);
+	border-radius: .6rem;
+	padding: .15rem .5rem;
+}
+
+.packing-category-count-done {
+	color: var(--dog-teal-dark);
+	background-color: var(--dog-mint-tint);
+	border-color: var(--dog-mint-border);
+}
+
+.packing-items {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.packing-item {
+	display: flex;
+	align-items: center;
+	gap: .5rem;
+	padding: .55rem 1.25rem;
+	border-top: 1px solid var(--dog-line);
+}
+
+	.packing-item:first-child {
+		border-top: 0;
+	}
+
+	.packing-item ::deep .packing-item-check {
+		flex-grow: 1;
+		min-width: 0;
+		margin-bottom: 0;
+	}
+
+	.packing-item ::deep .form-check-input {
+		width: 1.25rem;
+		height: 1.25rem;
+		margin-top: .1rem;
+		cursor: pointer;
+	}
+
+	.packing-item ::deep .form-check-input:checked {
+		background-color: var(--dog-teal);
+		border-color: var(--dog-teal);
+	}
+
+	.packing-item ::deep .packing-item-text {
+		display: flex;
+		flex-direction: column;
+		padding-left: .35rem;
+		cursor: pointer;
+		overflow-wrap: anywhere;
+	}
+
+.packing-item-name {
+	font-weight: 600;
+}
+
+.packing-item-note {
+	font-size: .85rem;
+	color: var(--dog-muted);
+}
+
+.packing-item-packed .packing-item-name {
+	color: var(--dog-muted);
+	text-decoration: line-through;
+}
+
+.packing-item-actions {
+	display: flex;
+	flex: 0 0 auto;
+	gap: .1rem;
+}
+
+.packing-category ::deep .packing-action {
+	--bs-btn-padding-x: .45rem;
+	--bs-btn-padding-y: .25rem;
+	color: var(--dog-muted);
+	box-shadow: none;
+}
+
+	.packing-category ::deep .packing-action:hover {
+		color: var(--dog-teal);
+	}
+
+.packing-category ::deep .packing-action-danger:hover {
+	color: var(--dog-coral-dark);
+}
+
+@media (max-width: 575.98px) {
+	.packing-item {
+		padding-inline: 1rem;
+	}
+}

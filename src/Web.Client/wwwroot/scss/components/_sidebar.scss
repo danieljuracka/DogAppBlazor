@@ -50,4 +50,18 @@
 	.hx-sidebar-item-icon {
 		color: #6e8a84;
 	}
+
+	// Na mobile je sidebar len lišta nad obsahom - čím je nižšia, tým viac obsahu vidno bez posúvania.
+	@media (max-width: $breakpoint-md) {
+		padding-block: 0;
+
+		.hx-sidebar-header {
+			padding: .4rem 1rem;
+		}
+
+		.app-logo {
+			width: 34px;
+			height: 34px;
+		}
+	}
 }

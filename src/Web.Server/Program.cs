@@ -27,6 +27,7 @@ builder.Services.AddHxMessageBoxHost();
 HavitBlazorDefaults.Configure();
 
 builder.Services.AddScoped<IDogsDataStore, DogsDataStore>();
+builder.Services.AddScoped<FileDownloader>();
 
 // Havit.Blazor.Grpc.Server pouziva IExceptionMonitoringService na hlasenie chyb fasad.
 builder.Services.AddExceptionMonitoring(builder.Configuration);

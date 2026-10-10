@@ -19,8 +19,18 @@ public class IdGenerator(TableServiceClient tableServiceClient)
 
 	private readonly TableClient _tableClient = tableServiceClient.GetTableClient(TableNames.Counters);
 
-	public async Task<int> GetNextIdAsync(string counterName, CancellationToken cancellationToken = default)
+	public Task<int> GetNextIdAsync(string counterName, CancellationToken cancellationToken = default)
 	{
+		return GetNextIdsAsync(counterName, 1, cancellationToken);
+	}
+
+	/// <summary>
+	/// Pridelí naraz <paramref name="count"/> po sebe idúcich Id a vráti prvé z nich.
+	/// </summary>
+	public async Task<int> GetNextIdsAsync(string counterName, int count, CancellationToken cancellationToken = default)
+	{
+		Contract.Requires<ArgumentOutOfRangeException>(count > 0);
+
 		for (int attempt = 1; attempt <= MaxAttempts; attempt++)
 		{
 			NullableResponse<TableEntity> response = await _tableClient.GetEntityIfExistsAsync<TableEntity>(PartitionKey, counterName, cancellationToken: cancellationToken);
@@ -29,13 +39,13 @@ public class IdGenerator(TableServiceClient tableServiceClient)
 			{
 				if (!response.HasValue)
 				{
-					await _tableClient.AddEntityAsync(new TableEntity(PartitionKey, counterName) { [LastIdProperty] = 1 }, cancellationToken);
+					await _tableClient.AddEntityAsync(new TableEntity(PartitionKey, counterName) { [LastIdProperty] = count }, cancellationToken);
 					return 1;
 				}
 
 				TableEntity counter = response.Value;
 				int nextId = counter.GetInt32(LastIdProperty).GetValueOrDefault() + 1;
-				counter[LastIdProperty] = nextId;
+				counter[LastIdProperty] = nextId + count - 1;
 				await _tableClient.UpdateEntityAsync(counter, counter.ETag, TableUpdateMode.Replace, cancellationToken);
 				return nextId;
 			}

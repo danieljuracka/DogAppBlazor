@@ -1,0 +1,40 @@
+@* Modálne okno na pridanie a úpravu položky baliaceho zoznamu. Otvára sa metódami ShowNewAsync / ShowEditAsync. *@
+
+<HxModal @ref="_modal" Title="@_title" Backdrop="ModalBackdrop.Static" OnClosed="HandleClosed">
+	<BodyTemplate>
+		@if (_item is not null)
+		{
+			<EditForm Model="_item" OnValidSubmit="SaveAsync">
+				<DataAnnotationsValidator />
+
+				<div class="row g-3">
+					<div class="col-12">
+						<HxInputText Label="Názov položky"
+									 Placeholder="Napríklad Turistické topánky"
+									 @bind-Value="_item.Name" />
+					</div>
+					<div class="col-12">
+						<HxInputText Label="Kategória"
+									 Hint="Vyber z ponuky alebo napíš vlastnú."
+									 @bind-Value="_item.Category"
+									 AdditionalAttributes="_categoryInputAttributes" />
+						<datalist id="@CategoryListId">
+							@foreach (string category in Categories)
+							{
+								<option value="@category"></option>
+							}
+						</datalist>
+					</div>
+					<div class="col-12">
+						<HxInputTextArea Label="Poznámka" Placeholder="Nepovinné" @bind-Value="_item.Note" />
+					</div>
+				</div>
+
+				<div class="d-flex flex-wrap gap-2 mt-4">
+					<HxSubmit Color="ThemeColor.Primary" Text="Uložiť" Icon="@BootstrapIcon.Check2" Enabled="!_isBusy" />
+					<HxButton Color="ThemeColor.Secondary" Outline="true" Text="Zrušiť" Enabled="!_isBusy" OnClick="HideAsync" />
+				</div>
+			</EditForm>
+		}
+	</BodyTemplate>
+</HxModal>

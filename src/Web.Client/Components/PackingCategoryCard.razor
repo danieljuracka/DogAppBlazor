@@ -1,0 +1,62 @@
+@* Jedna kategória baliaceho zoznamu s jej položkami. Kategóriu je možné skryť a znova zobraziť. *@
+
+<div class="packing-category">
+	<HxCard HeaderCssClass="packing-category-header">
+		<HeaderTemplate>
+			<button type="button"
+					class="packing-category-toggle"
+					aria-expanded="@(IsCollapsed ? "false" : "true")"
+					title="@(IsCollapsed ? "Zobraziť položky" : "Skryť položky")"
+					@onclick="OnToggleCollapsed">
+				<HxIcon Icon="@(IsCollapsed ? BootstrapIcon.ChevronRight : BootstrapIcon.ChevronDown)" CssClass="packing-category-chevron" />
+				<span class="packing-category-name">@Category</span>
+				<span class="@CountCssClass">@PackedCount / @TotalCount</span>
+			</button>
+			<HxButton Icon="@BootstrapIcon.PlusLg"
+					  Color="ThemeColor.None"
+					  CssClass="packing-action"
+					  Tooltip="Pridať položku do kategórie"
+					  AriaLabel="@($"Pridať položku do kategórie {Category}")"
+					  OnClick="() => OnAdd.InvokeAsync(Category)" />
+		</HeaderTemplate>
+		<ChildContent>
+			@if (!IsCollapsed)
+			{
+				<ul class="packing-items">
+					@foreach (PackingItemDto item in Items)
+					{
+						<li @key="item.Id" class="@GetItemCssClass(item)">
+							<HxCheckbox @bind-Value="item.IsPacked"
+										@bind-Value:after="() => OnPackedChanged.InvokeAsync(item)"
+										CssClass="packing-item-check"
+										TextCssClass="packing-item-text">
+								<TextTemplate>
+									<span class="packing-item-name">@item.Name</span>
+									@if (!String.IsNullOrWhiteSpace(item.Note))
+									{
+										<span class="packing-item-note">@item.Note</span>
+									}
+								</TextTemplate>
+							</HxCheckbox>
+
+							<div class="packing-item-actions">
+								<HxButton Icon="@BootstrapIcon.Pencil"
+										  Color="ThemeColor.None"
+										  CssClass="packing-action"
+										  Tooltip="Upraviť"
+										  AriaLabel="@($"Upraviť {item.Name}")"
+										  OnClick="() => OnEdit.InvokeAsync(item)" />
+								<HxButton Icon="@BootstrapIcon.Trash"
+										  Color="ThemeColor.None"
+										  CssClass="packing-action packing-action-danger"
+										  Tooltip="Odstrániť"
+										  AriaLabel="@($"Odstrániť {item.Name}")"
+										  OnClick="() => OnDelete.InvokeAsync(item)" />
+							</div>
+						</li>
+					}
+				</ul>
+			}
+		</ChildContent>
+	</HxCard>
+</div>

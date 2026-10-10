@@ -153,6 +153,18 @@ h1:focus {
 .hx-sidebar .hx-sidebar-item-icon {
   color: #6e8a84;
 }
+@media (max-width: 767.98px) {
+  .hx-sidebar {
+    padding-block: 0;
+  }
+  .hx-sidebar .hx-sidebar-header {
+    padding: 0.4rem 1rem;
+  }
+  .hx-sidebar .app-logo {
+    width: 34px;
+    height: 34px;
+  }
+}
 
 .card {
   --bs-card-border-radius: 1.15rem;

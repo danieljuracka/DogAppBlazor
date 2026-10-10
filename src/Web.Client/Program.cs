@@ -21,6 +21,7 @@ builder.Services.AddHxMessenger();
 builder.Services.AddHxMessageBoxHost();
 
 builder.Services.AddScoped<IDogsDataStore, DogsDataStore>();
+builder.Services.AddScoped<FileDownloader>();
 
 // Fasady sa vo WebAssembly volaju cez gRPC-Web. Rozhrania s [ApiContract]
 // sa najdu v assembly kontraktov a zaregistruju sa ako klientske proxy.

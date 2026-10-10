@@ -69,6 +69,15 @@ public static class NavigationRoutes
 
 	#endregion
 
+	#region PackingList
+
+	public static class PackingList
+	{
+		public const string Index = "/packing-list";
+	}
+
+	#endregion
+
 	#region PetPhotos
 
 	/// <summary>
