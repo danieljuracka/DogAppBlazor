@@ -1,7 +1,7 @@
 {
-	"name": "Naši psi",
-	"short_name": "Naši psi",
-	"description": "Evidencia psov - zdravotné záznamy, pripomienky a váha.",
+	"name": "Hniezdočko",
+	"short_name": "Hniezdočko",
+	"description": "Rodinná aplikácia - psy, náklady, baliaci zoznam a ďalšie.",
 	"lang": "sk",
 	"id": "/",
 	"start_url": "/",
